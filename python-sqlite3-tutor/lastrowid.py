@@ -7,6 +7,7 @@
 import sqlite3 as lite
 import sys
 
+# create table in memory
 con = lite.connect(':memory:')
 
 with con:
