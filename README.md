@@ -1,4 +1,4 @@
 practice
 ========
 
-some practices
+some exercises from online courses or tutorials
