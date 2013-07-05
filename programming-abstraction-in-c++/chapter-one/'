@@ -1,0 +1,36 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  exercise12.cpp
+ *
+ *    Description:  computer area of  quarter circle 
+ *
+ *        Version:  1.0
+ *        Created:  2013年07月05日 22时15分46秒
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  qiaoyuguo (), 
+ *   Organization:  
+ *
+ * =====================================================================================
+ */
+
+#include <iostream>
+using namespace std;
+
+#define MAX 10000
+
+double square(double x)
+{
+    return x *x;
+}
+double compute_quarter_circle(double radius)
+{
+    double sum = 0;
+    for(int i = 1; i <= MAX; i++)
+    {
+        int height= sqrt(square(r)- square(i*r/MAX));
+        sum ++ 
+    }
+}
