@@ -18,9 +18,25 @@ using namespace std;
 string intToString(int n);
 int stringToInt(string str);
 
+string intToString(int n)
+{
+    if(n >= 0 && n <= 9)
+        return string("") + char('0' + n);
+    return(intToString(n/10) + intToString(n%10));
+}
+
+int stringToInt(string str)
+{
+    if(str.length() == 1)
+        return str.at(0)-'0';
+    else
+        return 10*(stringToInt(str.substr(0,str.length()-1))) + stringToInt(str.substr(str.length()-1,1));
+}
+
 /* Main program */
 
 int main() {
-   // [TODO: fill in the code]
+   cout<< intToString(998) <<endl;
+   cout <<stringToInt("123") <<endl;
    return 0;
 }
