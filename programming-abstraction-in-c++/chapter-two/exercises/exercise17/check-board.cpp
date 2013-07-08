@@ -47,7 +47,10 @@ int main() {
           gw.fillRect(piece_x, piece_y, piece_row_len, piece_col_len);
           gw.setColor("red");
           if((i+j) % 2 == 1)
-              gw.fillOval(piece_x+5, piece_y+5, piece_row_len-10,piece_col_len-10);
+          {
+              double reduce_len = piece_row_len/10;
+              gw.fillOval(piece_x+reduce_len/2, piece_y+reduce_len/2, piece_row_len-reduce_len,piece_col_len-reduce_len);
+          }
           piece_x += piece_row_len;
           if(j < BOARD_COLS - 1)
               piece_color = revert_color(piece_color);
