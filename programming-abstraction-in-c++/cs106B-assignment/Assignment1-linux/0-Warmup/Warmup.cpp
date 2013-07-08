@@ -29,7 +29,7 @@ int hashCode(string key);
 int main() {
    string name;
    cout << "Please enter your name: ";
-   cin >>name;
+   std::getline(cin,name);
    //string name = getLine("Please enter your name: ");
    int code = hashCode(name);
    cout << "The hash code for your name is " << code << "." << endl;
