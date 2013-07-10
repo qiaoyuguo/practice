@@ -33,6 +33,14 @@ typedef enum {
     MEDIAN3, // pivot as mininum of head and center and tail
 } PIVOT_POS;//Pivot position at head or median or last of array 
 
+void print_arr(int a[], int left, int right)
+{
+    int i;
+    for(i = left; i <= right; i++)
+        printf("%d ", a[i]);
+    printf("\n");
+}
+
 
 int min2(int a, int b)
 {
@@ -44,13 +52,21 @@ int get_min3_index(int i, int j, int k, int a, int b, int c)
         return i;
     if((a <= b && b <= c) || (c <= b && b <= a))
         return j;
-    if( (a <= c && c<= b) || (b <= c && c <= b))
+    if( (a <= c && c<= b) || (b <= c && c <= a))
         return k;
 }
-int prepare_sort(void)
+int prepare_sort(char *file_name, int *buf, int len)
 {
+    int ret;
     total_cmp = 0;
-    memset(buf, 0, MAX);
+    memset(buf, 0, len);
+    ret = read_file_to_buf(file_name, buf, len);
+    if(ret != OK)
+    {
+        fprintf(stderr, "can't read file %s", INPUT_FILE );
+        return ERROR;
+    }
+    return OK;
 }
 int read_file_to_buf(char *file, int *buf, int max)
 {
@@ -121,45 +137,53 @@ void quick_sort(int a[], int left, int right, PIVOT_POS pos)
     quick_sort(a, part_pos + 1, right, pos);
 }
 
-void print_arr(int a[], int left, int right)
+void get_result(char *file, int *buf, int len)
 {
-    int i;
-    for(i = left; i <= right; i++)
-        printf("%d ", a[i]);
-    printf("\n");
+    printf("statistics for file %s\n", file);
+    prepare_sort(file, buf,len);
+    quick_sort(buf, 0, len-1, FIRST);
+    printf("pivot at first position, comparition is %d\n", total_cmp);
+    prepare_sort(file, buf,len);
+    quick_sort(buf, 0, len-1, MEDIAN);
+    printf("pivot at median position, comparition is %d\n", total_cmp);
+    prepare_sort(file, buf,len);
+    quick_sort(buf, 0, len-1, LAST);
+    printf("pivot at last position, comparition is %d\n", total_cmp);
+    prepare_sort(file, buf,len);
+    quick_sort(buf, 0, len-1, MEDIAN3);
+    printf("pivot at median3(min of first and last and middle) position, comparition is %d\n\n", total_cmp);
+
+}
+int test_get_min3_index(void)
+{
+    printf("%d \n", get_min3_index(1,2,3,1,2,3)); //2
+    printf("%d \n", get_min3_index(1,2,3,1,3,2)); //3
+    printf("%d \n", get_min3_index(1,2,3,2,1,3)); //1
+    printf("%d \n", get_min3_index(1,2,3,2,3,1)); //1
+    printf("%d \n", get_min3_index(1,2,3,3,1,2)); //3
+    printf("%d \n", get_min3_index(1,2,3,3,2,1)); //2
 }
 int main(void)
 {
 #if 0
-    int arr[] = {3,2,8,5,1,4,7,6};
+    int arr[] = {3,9,8,4,6,10,2,5,7,1}; //result should be 25 29 31
+
     int len = sizeof(arr)/sizeof(arr[0]);
+    get_result(arr, len);
     //quick_sort(arr, 0, len-1, FIRST);
     //quick_sort(arr, 0, len-1, MEDIAN);
     //quick_sort(arr, 0, len-1, LAST);
-    quick_sort(arr, 0, len-1, MEDIAN3);
-    
-    print_arr(arr, 0, len-1);
+    //quick_sort(arr, 0, len-1, min3);
+    //print_arr(arr, 0, len-1);
+
+    test_get_min3_index();
 #endif
 #if 1
-    int ret = read_file_to_buf(INPUT_FILE, buf, MAX);
-    if(ret != OK)
-    {
-        fprintf(stderr, "can't read file %s", INPUT_FILE );
-        return ERROR;
-    }
+    get_result("10.txt", buf, 10);
+    get_result("100.txt", buf, 100);
+    get_result("1000.txt", buf, 1000);
+    get_result(INPUT_FILE, buf, MAX);
 
-    prepare_sort();
-    quick_sort(buf, 0, MAX-1, FIRST);
-    printf("pivot at first position, comparition is %d\n", total_cmp);
-    prepare_sort();
-    quick_sort(buf, 0, MAX-1, MEDIAN);
-    printf("pivot at median position, comparition is %d\n", total_cmp);
-    prepare_sort();
-    quick_sort(buf, 0, MAX-1, LAST);
-    printf("pivot at last position, comparition is %d\n", total_cmp);
-    prepare_sort();
-    quick_sort(buf, 0, MAX-1, MEDIAN3);
-    printf("pivot at median3(min of first and last and middle) position, comparition is %d\n", total_cmp);
 #endif
     return 0;
 }

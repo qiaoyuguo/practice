@@ -1,4 +1,24 @@
-pivot at first position, comparition is 21981424
-pivot at median position, comparition is 3218960
-pivot at last position, comparition is 49995000
-pivot at median3(min of first and last and middle) position, comparition is 3218960
+statistics for file 10.txt
+pivot at first position, comparition is 25
+pivot at median position, comparition is 19
+pivot at last position, comparition is 29
+pivot at median3(min of first and last and middle) position, comparition is 21
+
+statistics for file 100.txt
+pivot at first position, comparition is 615
+pivot at median position, comparition is 664
+pivot at last position, comparition is 587
+pivot at median3(min of first and last and middle) position, comparition is 518
+
+statistics for file 1000.txt
+pivot at first position, comparition is 10297
+pivot at median position, comparition is 11137
+pivot at last position, comparition is 10184
+pivot at median3(min of first and last and middle) position, comparition is 8921
+
+statistics for file QuickSort.txt
+pivot at first position, comparition is 162085
+pivot at median position, comparition is 150657
+pivot at last position, comparition is 164123
+pivot at median3(min of first and last and middle) position, comparition is 138382
+
