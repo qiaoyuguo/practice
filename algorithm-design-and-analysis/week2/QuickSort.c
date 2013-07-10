@@ -111,11 +111,11 @@ void quick_sort(int a[], int left, int right, PIVOT_POS pos)
     int part_pos;
     if(left >= right) 
     {
-        ++total_cmp;
+        //++total_cmp;
         return;
     }
 
-    ++total_cmp;  
+    //++total_cmp;  
     part_pos = partition(a, left, right, pos);
     quick_sort(a, left, part_pos-1, pos);
     quick_sort(a, part_pos + 1, right, pos);

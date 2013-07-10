@@ -1,4 +1,4 @@
-pivot at first position, comparition is 21996459
-pivot at median position, comparition is 3232815
-pivot at last position, comparition is 50014999
-pivot at median3(min of first and last and middle) position, comparition is 3232815
+pivot at first position, comparition is 21981424
+pivot at median position, comparition is 3218960
+pivot at last position, comparition is 49995000
+pivot at median3(min of first and last and middle) position, comparition is 3218960
