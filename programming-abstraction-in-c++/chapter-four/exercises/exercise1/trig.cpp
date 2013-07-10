@@ -30,7 +30,7 @@ void produceTable(void)
     cout << "---------------------------------+" << endl;
     for(int i = -90; i <= 90; i += 15) 
     {
-        cout <<" "<< setw(5) << i << " | " <<fixed << setw(10) << setprecision(7)<< sinDegrees(i)  << " | " << cosDegrees(i) << " |" << endl;
+        cout <<"  "<<setw(3)<< i << "  | " <<fixed << setw(10) << setprecision(7)<< sinDegrees(i)  << " | " << cosDegrees(i) << " |" << endl;
     }
 }
 
