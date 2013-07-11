@@ -1,10 +1,9 @@
 /*
  * =====================================================================================
  *
- *       Filename:  cannonball.cpp
+ *       Filename:  RaiseToPower.cpp
  *
- *    Description:  given the height of pyramid of cannonball, compute
- *    the number of connonballs it contains
+ *    Description:  compute pow of n raise to k
  *
  *
  * =====================================================================================
