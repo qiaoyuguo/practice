@@ -31,10 +31,11 @@ Set<int> createSet() {
 
 int countSubsetWays(Set<int> & set, int target)
 {
-    if(target == 0) 
-        return 1;
-    if(target < 0)
-        return 0;
+    if(set.isEmpty())
+    {
+        return target == 0 ? 1 : 0;
+    }
+    cout << set.toString() << endl;
     int first = set.first();
     Set<int> rest = set - first;
 
@@ -43,5 +44,6 @@ int countSubsetWays(Set<int> & set, int target)
 
 void printResult(Set<int> & set, int target)
 {
-   cout <<"the number of subset of set " << set.toString() << " whose elements sums to produces " << target << " is " << countSubsetWays(set, target) << endl;
+   cout <<"the number of subset of set " << set.toString() << " whose elements sums to produces " << target << " is " ;
+   cout << countSubsetWays(set, target) << endl;
 }
