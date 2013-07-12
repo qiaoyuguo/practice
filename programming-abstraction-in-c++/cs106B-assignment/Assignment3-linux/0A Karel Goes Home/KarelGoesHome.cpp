@@ -19,6 +19,17 @@ using namespace std;
 int numPathsHome(int street, int avenue);
 
 int main() {
-	// [TODO: fill in the code]
-	return 0;
+    cout << numPathsHome(3,5) << endl;
+
+    return 0;
 }
+
+int numPathsHome(int street, int avenue)
+{
+    if(street == 1 && avenue == 1)
+        return 1;
+    if(street < 1 || avenue == 1)
+        return 0;
+    return  numPathsHome(street - 1, avenue) + numPathsHome(street, avenue - 1);
+}
+
