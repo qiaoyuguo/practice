@@ -17,8 +17,24 @@ using namespace std;
  * subsequence of the first string.
  */
 bool isSubsequence(string text, string subsequence);
+void print_result(string text, string subsequence);
 
 int main() {
-	// [TODO: Fill this in! ]]
+    print_result("good good study", "go");
+    print_result("I love writing c++ programs.", "man");
     return 0;
+}
+
+void print_result(string text, string subsequence)
+{
+    string result = isSubsequence(text, subsequence) ? "is" : "isn't";
+    cout <<"'" << subsequence << "' " << result << " substring of " << "'" << text << "'" << endl;
+}
+bool isSubsequence(string text, string subsequence)
+{
+    if(text[0] == '\0')
+        return subsequence[0] == '\0';
+    if(text[0] == subsequence[0])
+        return isSubsequence(text.substr(1), subsequence.substr(1));
+    return isSubsequence(text.substr(1), subsequence);
 }
