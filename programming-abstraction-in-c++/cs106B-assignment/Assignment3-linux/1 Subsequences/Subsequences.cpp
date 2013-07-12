@@ -20,4 +20,5 @@ bool isSubsequence(string text, string subsequence);
 
 int main() {
 	// [TODO: Fill this in! ]]
+    return 0;
 }
