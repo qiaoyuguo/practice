@@ -49,9 +49,8 @@ void subdivideCanvas(GWindow &gw, double x, double y,
         } else {
             double mid = randomReal(MIN_EDGE, height - MIN_EDGE);
             subdivideCanvas(gw, x, y, width , mid);
-            subdivideCanvas(gw, x+mid, y, width-mid, height);
+            subdivideCanvas(gw, x, y+mid, width, height-mid);
             gw.drawLine(x, y+mid, x+width, y+mid);
-
         }
     }
 
