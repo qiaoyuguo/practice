@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #define OK 1
 #define ERROR -1
@@ -34,7 +35,9 @@ typedef struct adj_lst_s {
 int  read_file_and_create_graph(char *file_name, adj_lst *out);
 void print_adj_lst(adj_lst *input);
 void free_adj_lst(adj_lst *input);
-void copy_adj_lst(adj_lst *input, adj_lst *output);
+int copy_adj_lst(adj_lst *input, adj_lst *output);
+int core_handle(adj_lst *lst);
+int min_cut(adj_lst *lst);
 
 int main(void)
 {
@@ -42,16 +45,62 @@ int main(void)
     memset(&input_lst, 0, sizeof(adj_lst));
     print_adj_lst(&input_lst);
     read_file_and_create_graph(INPUT_FILE, &input_lst);
-    print_adj_lst(&input_lst);
-    copy_adj_lst(&input_lst, &output_lst);
-    print_adj_lst(&output_lst);
-    //free_adj_lst(&lst);
-    //print_adj_lst(&lst);
-
+    //print_adj_lst(&input_lst);
+    //copy_adj_lst(&input_lst, &output_lst);
+    //print_adj_lst(&output_lst);
+    core_handle(&input_lst);
+    free_adj_lst(&input_lst);
 
     return 0;
 }
 
+int core_handle(adj_lst *lst)
+{
+    int i;
+    int ret_val = OK;
+    int rounds = 0;
+    int min = INT_MAX;
+
+    adj_lst cur_lst;
+    if(lst == NULL || lst->lst == NULL || lst->vex_num == 0)
+        return ERROR;
+    srandom(time(NULL));
+    ret_val = copy_adj_lst(lst, &cur_lst);
+    if(ret_val != OK)
+        return ERROR;
+
+    rounds = cur_lst.vex_num * cur_lst.vex_num;
+    for(i = 0; i < rounds; i++)
+    {
+        int cur_cut_num = min_cut(&cur_lst);
+        if(cur_cut_num < min)
+            min = cur_cut_num;
+    }
+
+    free_adj_lst(&cur_lst);
+    
+    return OK;
+}
+
+int min_cut(adj_lst *lst)
+{
+    int pair_one, pair_two;
+    int vex_num;
+
+    if(lst == NULL || lst->lst == NULL || lst->vex_num == 0)
+        return 0;
+
+    vex_num = lst->vex_num;
+    pair_one = random() % vex_num;
+    pair_two = random() % vex_num;
+    while(pair_two == pair_one)
+        pair_two = random() % vex_num;
+
+    printf("%d %d\n", pair_one, pair_two);
+    print_adj_lst(lst);
+
+    return 0;
+}
 
 int  read_file_and_create_graph(char *file_name, adj_lst *out)
 {
@@ -88,9 +137,10 @@ int  read_file_and_create_graph(char *file_name, adj_lst *out)
     for(i = 0; i < vex_num; i++)
     {
         int vex_index;
-        int first = 1;
         char *tmp_str = NULL;;
         char *delim_str = " \t\n";
+        int count = 0;
+        node *prev_node = &(out->lst[i]);
 
         memset(buf, 0, buf_size);
         fgets(buf, MAX, fp);
@@ -100,27 +150,21 @@ int  read_file_and_create_graph(char *file_name, adj_lst *out)
         //while(fgets(fp, "%d", &vex_index) == 1)
         {
             vex_index = atoi(tmp_str);
-            if(first)
+            node *cur_node = malloc(sizeof(node));
+            if(cur_node == NULL)
             {
-                out->lst[i].vex = vex_index;
-                out->lst[i].next = NULL;
-                first = 0;
+                fclose(fp);
+                free(out->lst);
+                return ERROR;
             }
-            else
-            {
-                node *cur_node = malloc(sizeof(node));
-                if(cur_node == NULL)
-                {
-                    fclose(fp);
-                    free(out->lst);
-                    return ERROR;
-                }
-                cur_node->vex = vex_index;
-                cur_node->next = out->lst[i].next;
-                out->lst[i].next = cur_node;
-            }
+            cur_node->vex = vex_index;
+            cur_node->next = NULL;
+            prev_node->next = cur_node;
+            prev_node = prev_node->next;
+            ++count;
             tmp_str = strtok(NULL, delim_str);
         }
+        out->lst[i].vex = count;
     }
     return OK;
 }
@@ -133,11 +177,18 @@ void print_adj_lst(adj_lst *input)
     printf("printing adj list:\n");
     for(i = 0; i < input->vex_num; i++)
     {
+        int first = 1;
         node *cur_node = &(input->lst[i]);
-        printf("vex %d:\n", cur_node->vex);
+        if(cur_node->vex == 0)
+            continue;
         while(cur_node->next != NULL)
         {
             cur_node = cur_node->next;
+            if(first)
+            {
+                printf("vex %d: \n", cur_node->vex);
+                first = 0;
+            }
             printf(" %d", cur_node->vex);
         }
         printf("\n");
@@ -166,17 +217,17 @@ void free_adj_lst(adj_lst *input)
     input->lst = NULL;
 }
 
-void copy_adj_lst(adj_lst *input, adj_lst *output)
+int copy_adj_lst(adj_lst *input, adj_lst *output)
 {
     int i,j;
     if(input == NULL || output == NULL || input->lst == NULL
       || input->vex_num== 0)
-        return;
+        return ERROR;
 
     output->vex_num = input->vex_num;
     output->lst  = malloc(input->vex_num * sizeof(node));
     if(output->lst == NULL)
-        return;
+        return ERROR;
     for(i = 0; i < input->vex_num; i++)
     {
         node *input_node = &(input->lst[i]);
@@ -189,7 +240,7 @@ void copy_adj_lst(adj_lst *input, adj_lst *output)
             input_node = input_node->next;
             node *tmp_node = malloc(sizeof(node));
             if(tmp_node == NULL)
-                return;
+                return ERROR;
             tmp_node -> vex = input_node->vex;
             tmp_node -> next = NULL;
 
@@ -197,4 +248,6 @@ void copy_adj_lst(adj_lst *input, adj_lst *output)
             output_node = output_node->next;
         }
     }
+
+    return OK;
 }
