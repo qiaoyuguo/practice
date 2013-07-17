@@ -63,23 +63,26 @@ int core_handle(adj_lst *lst)
     int ret_val = OK;
     int rounds = 0;
     int min = INT_MAX;
-
     adj_lst cur_lst;
+
     if(lst == NULL || lst->lst == NULL || lst->vex_num == 0)
         return ERROR;
-    ret_val = copy_adj_lst(lst, &cur_lst);
-    if(ret_val != OK)
-        return ERROR;
-
-    rounds = cur_lst.vex_num * cur_lst.vex_num;
+#if 0
+#endif
+    rounds = lst->vex_num * lst->vex_num;
     for(i = 0; i < rounds; i++)
     {
+        ret_val = copy_adj_lst(lst, &cur_lst);
+        if(ret_val != OK)
+            return ERROR;
         int cur_cut_num = min_cut(&cur_lst);
+        printf("current cut num is %d\n", cur_cut_num);
         if(cur_cut_num < min)
             min = cur_cut_num;
+        free_adj_lst(&cur_lst);
     }
-    free_adj_lst(&cur_lst);
     
+    printf("min cut num is %d\n", min);
     return OK;
 }
 
@@ -110,8 +113,8 @@ int min_cut(adj_lst *lst)
 #endif
     }
     // also need to free  space allocated for pair two, now not implemented
-   cur_node = lst->lst[pair_one].next->next;
-    while(cur_node != 0)
+    cur_node = lst->lst[pair_one].next->next;
+    while(cur_node != NULL)
     {
         ++count;
         cur_node = cur_node->next;
