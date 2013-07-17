@@ -114,6 +114,7 @@ int min_cut(adj_lst *lst)
     }
     // also need to free  space allocated for pair two, now not implemented
     cur_node = lst->lst[pair_one].next->next;
+    count = 0;
     while(cur_node != NULL)
     {
         ++count;
