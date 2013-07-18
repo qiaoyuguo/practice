@@ -26,8 +26,10 @@ int main(int argc, char *argv)
     int *a;
 
     int ret = init_array(&a, len);
+    printf("print the initial array:\n");
     print_array(a, len);
     insert_sort(a, len);
+    printf("after sorting:\n");
     print_array(a, len);
     del_array(&a);
 
@@ -40,10 +42,10 @@ void insert_sort(int a[], int len)
     for(i = 0; i < len; i++)
     {
         int cur_elem = a[i];
-        for(j = i-1; j >= 0; j--)
-            if(a[j] > cur_elem)
-                a[j + 1] = a[j];
-        a[j + 1] = cur_elem;
+        for(j = i-1; j >= 0 && a[j] > cur_elem; j--)
+            a[j + 1] = a[j];
+        a[j+1] = cur_elem;
+        printf("%d round:", i+1);
         print_array(a, len);
     }
 }
