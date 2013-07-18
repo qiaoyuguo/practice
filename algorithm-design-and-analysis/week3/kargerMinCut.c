@@ -7,7 +7,7 @@
  *
  * =====================================================================================
  */
-
+/* http://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Single_run_of_Karger%E2%80%99s_Mincut_algorithm.svg/2000px-Single_run_of_Karger%E2%80%99s_Mincut_algorithm.svg.png */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -24,6 +24,7 @@ char buf[MAX + 1] = {0};
 
 typedef struct node_s {
     int vex;
+    int line_no; //line count between two vex
     struct node_s *next;
 }node;
 
@@ -102,15 +103,15 @@ int min_cut(adj_lst *lst)
     srandom(time(NULL));
     vex_num = lst->vex_num;
 
-    //for(i = 0; i < 1; i++)
-    for(i = 0; i < vex_num -1; i++)
+    for(i = 0; i < 1; i++)
+    //for(i = 0; i < vex_num -1; i++)
     {
-#if 1
+#if 0
         ret = get_vex_pair(lst, &pair_one, &pair_two);
         if(ret != OK)
             return ERROR;
 #endif
-#if 0
+#if 1
         pair_one = 1;
         pair_two = 3;
 #endif
@@ -274,6 +275,7 @@ int  read_file_and_create_graph(char *file_name, adj_lst *out)
         fclose(fp);
         return ERROR;
     }
+    memset(out->lst, 0, vex_num * sizeof(node));
 
     for(i = 0; i < vex_num; i++)
     {
@@ -299,6 +301,7 @@ int  read_file_and_create_graph(char *file_name, adj_lst *out)
                 return ERROR;
             }
             cur_node->vex = vex_index;
+            ++cur_node->line_no;
             cur_node->next = NULL;
             prev_node->next = cur_node;
             prev_node = prev_node->next;
@@ -306,7 +309,10 @@ int  read_file_and_create_graph(char *file_name, adj_lst *out)
             tmp_str = strtok(NULL, delim_str);
         }
         out->lst[i].vex = count;
+        out->lst[i].line_no = count;
     }
+    fclose(fp);
+
     return OK;
 }
 
@@ -322,16 +328,16 @@ void print_adj_lst(adj_lst *input)
         node *cur_node = &(input->lst[i]);
         if(cur_node->vex == 0)
             continue;
-        printf("vex num: %d ", cur_node->vex);
+        printf("vex num: %d,line_no:%d ", cur_node->vex,cur_node->line_no);
         while(cur_node->next != NULL)
         {
             cur_node = cur_node->next;
             if(first)
             {
-                printf("vex %d: \n", cur_node->vex);
+                printf("vex %d, line_no:%d \n", cur_node->vex, cur_node->line_no);
                 first = 0;
             }
-            printf(" %d", cur_node->vex);
+            printf(" %d,%d", cur_node->vex, cur_node->line_no);
         }
         printf("\n");
     }
@@ -384,6 +390,7 @@ int copy_adj_lst(adj_lst *input, adj_lst *output)
             if(tmp_node == NULL)
                 return ERROR;
             tmp_node -> vex = input_node->vex;
+            tmp_node ->line_no = input_node->line_no;
             tmp_node -> next = NULL;
 
             output_node->next = tmp_node;
