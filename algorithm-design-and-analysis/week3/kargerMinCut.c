@@ -69,7 +69,8 @@ int core_handle(adj_lst *lst)
         return ERROR;
 #if 0
 #endif
-    rounds = lst->vex_num * lst->vex_num;
+    //rounds = lst->vex_num * lst->vex_num;
+    rounds = 1;
     for(i = 0; i < rounds; i++)
     {
         ret_val = copy_adj_lst(lst, &cur_lst);
@@ -101,13 +102,20 @@ int min_cut(adj_lst *lst)
     srandom(time(NULL));
     vex_num = lst->vex_num;
 
+    //for(i = 0; i < 1; i++)
     for(i = 0; i < vex_num -1; i++)
     {
+#if 1
         ret = get_vex_pair(lst, &pair_one, &pair_two);
         if(ret != OK)
             return ERROR;
+#endif
+#if 0
+        pair_one = 1;
+        pair_two = 3;
+#endif
         one_round_min_cut(lst, pair_one, pair_two);
-        printf("%d %d\n", pair_one, pair_two);
+        printf("pair:%d %d\n", pair_one, pair_two);
 #if 1 
         print_adj_lst(lst);
 #endif
@@ -129,21 +137,53 @@ int one_round_min_cut(adj_lst *lst, int pair_one, int pair_two)
     int vex_num = lst->vex_num;
     int i;
     lst->lst[pair_two].vex = 0;
+
     for(i = 0; i < vex_num; i++)
     {
         if(lst->lst[i].vex != 0)
         {
+            int has_pair_two = 0;
+            int has_pair_one = 0;
             node *cur_node = lst->lst[i].next;
+            node *prev_node;
             cur_node = cur_node->next;
+            // search list to find if has pair_one or pair_two;
             while(cur_node != NULL)
             {
                 if(cur_node->vex == pair_two + 1)
-                    cur_node->vex = pair_one + 1;
+                    has_pair_two = 1;
+                if(cur_node->vex == pair_one + 1)
+                    has_pair_one = 1;
                 cur_node = cur_node->next;
             }
+            //only when has pair_two we need modify the list
+            if(has_pair_two)
+            {
+                prev_node = lst->lst[i].next;
+                cur_node = prev_node->next;
+                while(cur_node != NULL)
+                {
+                    if(cur_node->vex == pair_two + 1)
+                    {
+                        if(has_pair_one || i == pair_one) // if has pair_oneor it is the list corresponding to pair one  then delete node whose value is  pair_two  
+                        {
+                            prev_node->next = cur_node->next;
+                            free(cur_node);
+                            cur_node = NULL;
+                            --lst->lst[i].vex;
+                        }
+                        else // if has no pair_one then modify corresponding vex to pair_one
+                            cur_node->vex = pair_one + 1;
+                        break;
+                    }
+                    prev_node = cur_node;
+                    cur_node = cur_node->next;
+                }
+            }
+
+
         }
     }
-   
     return OK; 
 }
 
@@ -157,6 +197,8 @@ int get_vex_pair(adj_lst *lst, int *out_fst_num, int *out_sec_num)
     int *cur_buf = NULL;
     int fst_vex;
     int sec_vex;
+    int out_degree;
+    node *node;
     if(lst == NULL || lst->lst == NULL || out_fst_num == NULL
       || out_sec_num == NULL)
         return -1;
@@ -176,14 +218,24 @@ int get_vex_pair(adj_lst *lst, int *out_fst_num, int *out_sec_num)
         if(lst->lst[i].vex != 0)
             cur_buf[count++] = i;
     }
-    fst_vex = random() % count;
-    *out_fst_num = cur_buf[fst_vex];
-   
-    while((sec_vex = random()%count) == fst_vex)
-        continue;
-    *out_sec_num = cur_buf[sec_vex];
+    do{
+        fst_vex = random() % count;
+        *out_fst_num = cur_buf[fst_vex];
+    }while(lst->lst[*out_fst_num].vex == 0);
+    //printf("fst_vex:%d, fst_num:%d\n",fst_vex ,*out_fst_num);
+    out_degree = lst->lst[*out_fst_num].vex - 1;
+    sec_vex = random() % out_degree;
+    node = lst->lst[*out_fst_num].next->next;
+    printf("\n for vex %d , seach %d index, node->vex=%d:", *out_fst_num, sec_vex, node->vex);
+    for(count = 0; count < sec_vex-1 && node != NULL; count++)
+    {
+        printf(" %d", node->vex);
+        node = node->next;
+    }
+    printf("\n");
+    *out_sec_num = node->vex - 1;
 
-    if(lst->lst[*out_fst_num].vex == 0 || lst->lst[*out_sec_num].vex == 0)
+    if(lst->lst[*out_fst_num].vex == 0 )//|| lst->lst[*out_sec_num].vex == 0)
     {
         printf("get_vex_pair return error pair\n");
         return ERROR;
