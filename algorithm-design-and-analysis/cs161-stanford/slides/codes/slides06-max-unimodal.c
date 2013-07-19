@@ -6,6 +6,7 @@
  *    Description:  find max element  of an unimodal array
  *                 an array is unimodal if and only if it can be splitted into increasing sequence followed by a decreasing sequence 
  *
+ *    note: this algorithm seemed to be a buggy algorithm
  * =====================================================================================
  */
 
