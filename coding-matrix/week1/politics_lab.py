@@ -1,4 +1,5 @@
 voting_data = list(open("voting_record_dump109.txt"))
+#print(voting_data)
 
 ## Task 1
 
@@ -29,7 +30,11 @@ def create_voting_dict():
 
     The lists for each senator should preserve the order listed in voting data. 
     """
-    return dict() 
+    dct = dict()
+    for line in voting_data:
+        lst = line.split()
+        dct[lst[0]] = [int(i) for i in lst[3:]]
+    return dct
     
 
 ## Task 2
@@ -45,7 +50,12 @@ def policy_compare(sen_a, sen_b, voting_dict):
         >>> policy_compare('Fox-Epstein','Ravella', voting_dict)
         -2
     """
-    return 0.0
+    total = 0
+    voting_a = voting_dict[sen_a]
+    voting_b = voting_dict[sen_b]
+    for i in len(voting_a):
+        total += voting_a[i] * voting_b[i]
+    return total
 
 
 ## Task 3
@@ -140,3 +150,6 @@ def bitter_rivals(voting_dict):
     """
     return (..., ...)
 
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
