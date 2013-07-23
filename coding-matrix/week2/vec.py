@@ -1,42 +1,58 @@
 # Please fill out this stencil and submit using the provided submission script.
 
 
-
-
-
 ## Problem 1
 def getitem(v,d):
     "Returns the value of entry d in v"
     assert d in v.D
-    pass
+    if d in v.f.keys():
+        return v.f[d]
+    else:
+        return 0;
 
 def setitem(v,d,val):
     "Set the element of v with label d to be val"
     assert d in v.D
-    pass
+    v.f[d] = val
 
 def equal(u,v):
     "Returns true iff u is equal to v"
     assert u.D == v.D
-    pass
+    for elem in u.D:
+        if u[elem] != v[elem]:
+            return False
+    return True
+
 
 def add(u,v):
     "Returns the sum of the two vectors"
     assert u.D == v.D
-    pass
+    result = Vec(v.D.copy(), v.f.copy())
+    for elem in u.D:
+        result[elem] = u[elem] + v[elem]
+    return result
 
 def dot(u,v):
     "Returns the dot product of the two vectors"
     assert u.D == v.D
-    pass
+    total = 0
+    for elem in u.D:
+        total += u[elem] * v[elem]
+    return total
 
 def scalar_mul(v, alpha):
     "Returns the scalar-vector product alpha times v"
-    pass
+    result = Vec(v.D.copy(), v.f.copy())
+    for elem in v.D:
+        result[elem] = alpha * v[elem]
+    return result
 
 def neg(v):
     "Returns the negation of a vector"
-    pass
+    result = Vec(v.D.copy(), v.f.copy())
+    for elem in v.D:
+        result[elem] = (-1) * v[elem]
+    return result
 
 ##### NO NEED TO MODIFY BELOW HERE #####
 class Vec:
@@ -98,3 +114,8 @@ class Vec:
         "Don't make a new copy of the domain D"
         return Vec(self.D, self.f.copy())
 
+#zero = Vec({'x','y','z','w'}, {})
+#u = Vec({'x','y','z','w'},{'x':1,'y':2,'z':3,'w':4})
+#print(u)
+#print(0*u)
+#print(0.5*u)
