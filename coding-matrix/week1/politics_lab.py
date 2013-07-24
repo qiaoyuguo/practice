@@ -178,8 +178,21 @@ def find_average_record(sen_set, voting_dict):
     for i in range(len(result)):
         result[i] /= n
     return result
-average_Democrat_record = find_average_record(create_voting_dict().keys(), create_voting_dict()) # (give the vector)
-#print(find_average_record({'A','B'}, {'A':[1,1], 'B':[0,0], 'C':[-1,0]}))
+
+def find_all_democrats():
+    dct = set()
+    for line in voting_data:
+        lst = line.split()
+        if lst[1] == 'D':
+            dct.add(lst[0])
+    return dct
+ 
+
+average_Democrat_record = find_average_record(find_all_democrats(), create_voting_dict()) # (give the vector)
+#print(find_average_record({'A','B', 'C','D'}, {'A':[1,2], 'B':[3,4], 'C':[2,1], 'D':[1,1], 'E':[1,1]}))
+#d = create_voting_dict()
+#print(find_average_record({'Clinton', 'Reed', 'Reid'}, d))
+#print(average_Democrat_record)
 
 # Task 8
 def disagree_count(sen_a, sen_b, voting_dict):
@@ -187,9 +200,9 @@ def disagree_count(sen_a, sen_b, voting_dict):
     voting_a = list(voting_dict[sen_a])
     voting_b = list(voting_dict[sen_b])
     for i in range(len(voting_a)):
-        if voting_a[i] != voting_b[i]:
-            count += 1
+        count += voting_a[i]*voting_b[i]
     return count
+
 def bitter_rivals(voting_dict):
     """
     Input: a dictionary mapping senator names to lists representing
@@ -201,20 +214,21 @@ def bitter_rivals(voting_dict):
         >>> bitter_rivals(voting_dict)
         ('Fox-Epstein', 'Ravella')
     """
-    max_count = 0
     sen_list =list(voting_dict.keys())
+    max_count = len(sen_list)
     result = None
     dct = dict() 
     length = len(sen_list)
     for i in range(length):
         for j in range(i+1, length):
             cur_count = disagree_count(sen_list[i], sen_list[j], voting_dict)
-            if cur_count > max_count:
+            #print(cur_count)
+            if cur_count <= max_count:
                 max_count = cur_count
                 result = (sen_list[i], sen_list[j])
 
-    return result
-
+    return tuple(set(result))
+#print(sorted(bitter_rivals({'A':[1,1,1],'B':[-1,-1,0],'C':[-1,-1,-1]})))
 
 if __name__ == "__main__":
     import doctest
