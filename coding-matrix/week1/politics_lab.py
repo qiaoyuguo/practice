@@ -53,7 +53,7 @@ def policy_compare(sen_a, sen_b, voting_dict):
     total = 0
     voting_a = voting_dict[sen_a]
     voting_b = voting_dict[sen_b]
-    for i in len(voting_a):
+    for i in range(len(voting_a)):
         total += voting_a[i] * voting_b[i]
     return total
 
@@ -74,8 +74,20 @@ def most_similar(sen, voting_dict):
 
     Note that you can (and are encouraged to) re-use you policy_compare procedure.
     """
-    
-    return ""
+    keys = voting_dict.keys()
+    min_value = -len(keys)
+    min_key = None
+    for k in keys:
+        if k != sen:
+            comp = policy_compare(k, sen, voting_dict)
+            #print(comp, k)
+            if comp > min_value:
+                min_value = comp
+                min_key = k
+    return min_key
+
+#vd = {'Klein': [1,2,3], 'Fox-Epstein': [3,-2,0], 'Ravella': [-1,2,1], 'John':[1,1,3], 'Jane': [0,-3,2]}
+#print(most_similar('Klein', vd))
     
 
 ## Task 4
@@ -91,14 +103,22 @@ def least_similar(sen, voting_dict):
         >>> least_similar('Klein', vd)
         'Ravella'
     """
-    return ""
+    keys = voting_dict.keys()
+    max_value = len(keys) 
+    for k in keys:
+        if k != sen:
+            comp = policy_compare(k, sen, voting_dict)
+            if comp < max_value:
+                max_value = comp
+                max_key = k
+    return max_key
     
     
 
 ## Task 5
 
-most_like_chafee    = ''
-least_like_santorum = '' 
+most_like_chafee    = most_similar("Chafee", create_voting_dict())
+least_like_santorum = least_similar("Santorum", create_voting_dict())
 
 
 
@@ -113,9 +133,29 @@ def find_average_similarity(sen, sen_set, voting_dict):
         >>> find_average_similarity('Klein', {'Fox-Epstein','Ravella'}, vd)
         -0.5
     """
-    return ...
+    total = 0
+    n = len(sen_set)
+    for k in sen_set:
+       total += policy_compare(sen, k, voting_dict) 
+    return total/n
 
-most_average_Democrat = ... # give the last name (or code that computes the last name)
+def find_most_average():
+    voting_dict = create_voting_dict()
+    keys = voting_dict.keys()
+    dct = dict()
+    for k in keys:
+        dct[k] = find_average_similarity(k, keys, voting_dict)
+    max_key= list(keys)[0]
+    max_value= dct[max_key]
+    
+    for k in dct.keys():
+        if dct[k] > max_value:
+            max_value = dct[k]
+            max_key = k
+    return max_key
+most_average_Democrat =  find_most_average() # give the last name (or code that computes the last name)
+#print(most_average_Democrat)
+#print(find_most_average())
 
 
 # Task 7
@@ -130,13 +170,26 @@ def find_average_record(sen_set, voting_dict):
         >>> find_average_record({'Fox-Epstein','Ravella'}, voting_dict)
         [-0.5, -0.5, 0.0]
     """
-    return ...
-
-average_Democrat_record = ... # (give the vector)
-
+    n = len(sen_set)
+    all_record = [ voting_dict[sen] for sen in sen_set]
+    result = [ 0 for i in all_record[0]]
+    for record in all_record:
+        result = [ result[j]+record[j] for j in range(len(record))]
+    for i in range(len(result)):
+        result[i] /= n
+    return result
+average_Democrat_record = find_average_record(create_voting_dict().keys(), create_voting_dict()) # (give the vector)
+#print(find_average_record({'A','B'}, {'A':[1,1], 'B':[0,0], 'C':[-1,0]}))
 
 # Task 8
-
+def disagree_count(sen_a, sen_b, voting_dict):
+    count = 0
+    voting_a = list(voting_dict[sen_a])
+    voting_b = list(voting_dict[sen_b])
+    for i in range(len(voting_a)):
+        if voting_a[i] != voting_b[i]:
+            count += 1
+    return count
 def bitter_rivals(voting_dict):
     """
     Input: a dictionary mapping senator names to lists representing
@@ -148,7 +201,20 @@ def bitter_rivals(voting_dict):
         >>> bitter_rivals(voting_dict)
         ('Fox-Epstein', 'Ravella')
     """
-    return (..., ...)
+    max_count = 0
+    sen_list =list(voting_dict.keys())
+    result = None
+    dct = dict() 
+    length = len(sen_list)
+    for i in range(length):
+        for j in range(i+1, length):
+            cur_count = disagree_count(sen_list[i], sen_list[j], voting_dict)
+            if cur_count > max_count:
+                max_count = cur_count
+                result = (sen_list[i], sen_list[j])
+
+    return result
+
 
 if __name__ == "__main__":
     import doctest
