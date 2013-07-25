@@ -19,7 +19,7 @@ using namespace std;
 
 /* Constants */
 const int N_COINS = 13; /* Initial number of coins */
-const int MAX_MOVE = 13; /* Number of coins a player may take */
+const int MAX_MOVE = 3; /* Number of coins a player may take */
 const int NO_GOOD_MOVE = -1; /* Marker indicating there is no good moves */
 
 /*
