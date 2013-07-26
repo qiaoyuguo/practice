@@ -8,20 +8,27 @@
  * =====================================================================================
  */
 
+#include "gwindow.h"
 #include "grid.h"
 #include "console.h"
+
+#define WIDTH  400
+#define HEIGHT  300
 
 const int ROW =  23;
 const int COL = 19;
 
 void init_pixels(Grid<bool> &pixels);
-void display_pixels(Grid<bool> &pixels, int r, int c);
+void display_pixels(Grid<bool> &pixels);
+void draw_pixels(Grid<bool> &pixels, GWindow &gw);
 
 int main(int argc, char **argv)
 {
+    GWindow gw(WIDTH, HEIGHT);
     Grid<bool> pixels(ROW, COL);
     init_pixels(pixels);
-    display_pixels(pixels, ROW, COL);
+    //display_pixels(pixels);
+    draw_pixels(pixels, gw);
 
     return 0;
 }
@@ -73,7 +80,10 @@ void init_pixels(Grid<bool> &pixels)
     }
 }
 
-void display_pixels(Grid<bool> &pixels, int r, int c)
+/*
+ * Display pixels in console window
+ */
+void display_pixels(Grid<bool> &pixels)
 {
    for(int i = 0; i < pixels.numRows(); i++) 
    {
@@ -83,4 +93,28 @@ void display_pixels(Grid<bool> &pixels, int r, int c)
        }
        cout << endl;
    }
+}
+
+/*
+ * Display pixels in graphics window
+ */
+void draw_pixels(Grid<bool> &pixels, GWindow &gw)
+{
+    int row = pixels.numRows();
+    int col = pixels.numCols();
+    double rect_width = gw.getWidth() / row; 
+    double rect_height = gw.getHeight() / col;
+
+    double oval_width = rect_width - 2;
+    double oval_height = rect_height - 2;
+
+    for(int i = 0; i < row; i++)
+        for(int j = 0; j < col; j++)
+        {
+            if(pixels[i][j])
+                gw.setColor("black");
+            else
+                gw.setColor("gray");
+            gw.fillOval(i*rect_width,j*rect_height, oval_width, oval_height);
+        }
 }
