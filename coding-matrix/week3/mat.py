@@ -3,30 +3,51 @@ from vec import Vec
 def getitem(M, k):
     "Returns the value of entry k in M.  The value of k should be a pair."
     assert k[0] in M.D[0] and k[1] in M.D[1]
-    pass
+    if k in M.f:
+        return M.f[k]
+    else:
+        return 0
 
 def setitem(M, k, val):
     "Sets the element of v with label k to be val.  The value of k should be a pair"
     assert k[0] in M.D[0] and k[1] in M.D[1]
-    pass
+    M.f[tuple(k)] = val
+
 
 def add(A, B):
     "Returns the sum of A and B"
     assert A.D == B.D
-    pass
+    mat = Mat(A.D, A.f.copy())
+    for k in B.f.keys():
+        mat[k] += B[k]
+    return mat
 
 def scalar_mul(M, alpha):
     "Returns the product of scalar alpha with M" 
-    pass
+    A = M.copy()
+    for k in A.f.keys():
+        A[k] *= alpha
+    return A
 
 def equal(A, B):
     "Returns true iff A is equal to B"
     assert A.D == B.D
-    pass
+    for k in A.f.keys():
+        if A[k] != B[k]:
+            return False
+    for k in B.f.keys():
+        if A[k] != B[k]:
+            return False
+    return True 
 
 def transpose(M):
     "Returns the transpose of M"
-    pass
+    d = (M.D[1],M.D[0])
+    f = dict()
+    for k,v in  M.f.items():
+        f[(k[1],k[0])] = v
+    return Mat(d,f)
+    
 
 def vector_matrix_mul(v, M):
     "Returns the product of vector v and matrix M"
@@ -110,3 +131,12 @@ class Mat:
     def __repr__(self):
         "evaluatable representation"
         return "Mat(" + str(self.D) +", " + str(self.f) + ")"
+
+
+#from GF2 import one 
+#M = Mat(({'a','b','c'}, {5}), {('a', 5):3, ('b', 5):7})
+#M['b', 5] = 9
+#M['c', 5] = 13
+#(M)
+#( Mat(({'a','b','c'}, {5}), {('a', 5):3, ('b', 5):9, ('c',5):13}))
+#(M == Mat(({'a','b','c'}, {5}), {('a', 5):3, ('b', 5):9, ('c',5):13}))
