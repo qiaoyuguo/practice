@@ -1,0 +1,129 @@
+
+1.Bits. Write a program Bits.java that takes an integer command-line argument N and uses a while loop to compute the number of times you need to divide N by 2 until it is strictly less than 1. Print out the error message "Illegal input" if N is negative.
+
+    % java Bits 0                     % java Bits 8
+    0                                 4
+
+    % java Bits 1                     % java Bits 16
+    1                                 5
+
+    % java Bits 2                     % java Bits 1000
+    2                                 10
+
+    % java Bits 4                     % java Bits -23
+    3                                 Illegal input
+
+Remark: This computes the number of bits in the binary representation of N, which also equals 1 + floor(log2 N) when N is positive. This quantity arises in information theory and the analysis of algorithms.
+
+
+2.Checkerboard. Write a program Checkerboard.java that takes an integer command-line argument N, and uses two nested for loops to print an N-by-N "checkerboard" pattern like the one below: a total of N2 asterisks, where each row has 2N characters (alternating between asterisks and spaces).
+
+    % java Checkerboard 4             % java Checkerboard 5
+    * * * *                           * * * * * 
+     * * * *                           * * * * *
+    * * * *                           * * * * * 
+     * * * *                           * * * * *
+                                      * * * * * 
+
+
+Random walk in the plane
+
+3.A drunkard's walk. A drunkard begins walking aimlessly, starting at a lamp post. At each time step, the drunkard forgets where he or she is, and takes one step at random, either north, east, south, or west, with probability 25%. How far will the drunkard be from the lamp post after N steps?
+
+    Write a program RandomWalker.java that takes an integer command-line argument N and simulates the motion of a random walker for N steps. After each step, print the location of the random walker, treating the lamp post as the origin (0, 0). Also, print the square of the final distance from the origin.
+
+        % java RandomWalker 10             % java RandomWalker 20
+        (0, -1)                           (0, 1)
+        (0, 0)                            (-1, 1)
+        (0, 1)                            (-1, 2)
+        (0, 2)                            (0, 2)
+        (-1, 2)                           (1, 2)
+        (-2, 2)                           (1, 3)
+        (-2, 1)                           (0, 3)
+        (-1, 1)                           (-1, 3)
+        (-2, 1)                           (-2, 3)
+        (-3, 1)                           (-3, 3)
+        squared distance = 10             (-3, 2)
+                                          (-4, 2)
+                                          (-4, 1)
+                                          (-3, 1)
+                                          (-3, 0)
+                                          (-4, 0)
+                                          (-4, -1)
+                                          (-3, -1)
+                                          (-3, -2)
+                                          (-3, -3)
+                                          squared distance = 18
+
+  Write a program RandomWalkers.java that takes two integer command-line arguments N and T. In each of T independent experiments, simulate a random walk of N steps and compute the squared distance. Output the mean squared distance (the average of the T squared distances).
+
+        % java RandomWalkers 100 10000         % java RandomWalkers 400 2000
+        mean squared distance = 101.446         mean squared distance = 383.12
+
+        % java RandomWalkers 100 10000         % java RandomWalkers 800 5000
+        mean squared distance = 99.1674         mean squared distance = 811.8264
+
+        % java RandomWalkers 200 1000         % java RandomWalkers 1600 100000
+        mean squared distance = 195.75          mean squared distance = 1600.13064
+
+    As N increases, we expect the random walker to end up farther and farther away from the origin. But how much farther? Use RandomWalkers to formulate a hypothesis as to how the mean squared distance grows as a function of N. Use T = 100,000 trials to get a sufficiently accurate estimate. 
+
+Remark: this process is a discrete version of a natural phenomenon known as Brownian motion. It serves as a scientific model for an astonishing range of physical processes from the dispersion of ink flowing in water, to the formation of polymer chains in chemistry, to cascades of neurons firing in the brain.
+
+
+4.Dice and the Gaussian distribution. Write a program TenDice.java that takes an integer command-line argument N, and rolls 10 fair six-sided dice, N times. Use an array to tabulate the number of times each possible total (between 10 and 60) occurs. Then print out a text histogram of the results, as illustrated below.
+
+    % java TenDice 1000
+    10: 
+    11: 
+    12: 
+    13: 
+    14: 
+    15: 
+    16: 
+    17: 
+    18: *
+    19: ****
+    20: 
+    21: ***
+    22: ******
+    23: ********
+    24: ****************
+    25: *************
+    26: **********
+    27: *********************************
+    28: ****************************************
+    29: *********************************
+    30: ***************************************************
+    31: *****************************************************************
+    32: ********************************************************
+    33: **************************************************************************************
+    34: ***********************************************************
+    35: *********************************************************************
+    36: ***********************************************************************************
+    37: **************************************************************
+    38: *****************************************************************
+    39: ***************************************
+    40: *****************************************************
+    41: ************************************
+    42: ****************************
+    43: ************************
+    44: ************************
+    45: *********
+    46: ***********
+    47: *******
+    48: ***
+    49: **
+    50: 
+    51: 
+    52: *
+    53: 
+    54: 
+    55: 
+    56: 
+    57: 
+    58: 
+    59: 
+    60: 
+
+    Remark: the central limit theorem, a key result in statistics, asserts that the shape of the resulting histogram tends to the ubiquitous bell curve (Gaussian distribution) if the number of dice and rolls is large.
