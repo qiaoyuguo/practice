@@ -52,12 +52,23 @@ def transpose(M):
 def vector_matrix_mul(v, M):
     "Returns the product of vector v and matrix M"
     assert M.D[0] == v.D
-    pass
+    res = Vec(M.D[1], dict())
+    for k in M.D[1]:
+        res[k] = 0 
+        for c in v.D:
+            res[k] += v[c] * M[(c,k)]
+    return res
+
 
 def matrix_vector_mul(M, v):
     "Returns the product of matrix M and vector v"
     assert M.D[1] == v.D
-    pass
+    res = Vec(M.D[0], dict())
+    for k in M.D[0]:
+        res[k] = 0 
+        for c in v.D:
+            res[k] += v[c] * M[(k,c)]
+    return res
 
 def matrix_matrix_mul(A, B):
     "Returns the product of A and B"
@@ -132,6 +143,9 @@ class Mat:
         "evaluatable representation"
         return "Mat(" + str(self.D) +", " + str(self.f) + ")"
 
+#v1 = Vec({1, 2, 3}, {1: 1, 2: 8})
+#M1 = Mat(({1, 2, 3}, {1, 2, 3}), {(1, 2): 2, (2, 1):-1, (3, 1): 1, (3, 3): 7})
+#print(v1 * M1)
 
 #from GF2 import one 
 #M = Mat(({'a','b','c'}, {5}), {('a', 5):3, ('b', 5):7})

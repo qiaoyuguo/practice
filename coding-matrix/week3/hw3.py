@@ -194,31 +194,26 @@ def dot_product_vec_mat_mult(v, M):
 ## Problem 15
 def Mv_mat_mat_mult(A, B):
     assert A.D[1] == B.D[0]
-
     dct = matutil.mat2coldict(B)
-    return (matutil.coldict2mat([lin_comb_mat_vec_mult(A, dct[c])  for c in dct]))
+    #return (matutil.coldict2mat(dict([ (c , lin_comb_mat_vec_mult(A, dct[c]))  for c in dct])))
+    v = Vec(dct.keys(), dict())
+    for c in dct:
+        print(A * dct[c])
+        v[c] = A * dct[c]
+    return matutil.coldict2mat(v)
+
 
 C = Mat(({0,1,2}, {'a','b'}), {(0,'a'):4, (0,'b'):-3, (1,'a'):1, (2,'a'):1, (2,'b'):-2}) 
 D = Mat(({'a','b'}, {'x','y'}), {('a','x'):3, ('a','y'):-2, ('b','x'):4, ('b','y'):-1})
 print(Mv_mat_mat_mult(C,D)) 
 print(Mat(({0,1,2}, {'x','y'}), {(0,'y'):-5, (1,'x'):3, (1,'y'):-2, (2,'x'):-5}))
 
-
-#d1 = {0, 1, 2, 3, 4}
-#d2 = {'a','b','c','d'}
-#d3 = {True, False}
-#D1 = (d1, d2)
-#D2 = (d2, d3)
-#M1 = Mat(D1, {(3, 'd'): 27, (1, 'c'): 26, (3, 'c'): 35, (3, 'a'): 20, (4, 'd'): 26, (1, 'd'): 5, (2, 'a'): 50, (2, 'b'): 11, (1, 'a'): 27, (2, 'c'): 34, (2, 'd'): 40, (4, 'a'): 33, (0, 'b'): 31}) 
-#N1 = Mat(D2, {('d', True): 2, ('b', False): 0, ('c', True): 0, ('a', True): 1, ('c', False): 0, ('d', False): 2, ('a', False): 1})
-#print(Mv_mat_mat_mult(M1,N1))
-
-## Problem 16
+# Problem 16
 def vM_mat_mat_mult(A, B):
     assert A.D[1] == B.D[0]
-    pass
-
-
+    dct = matutil.mat2rowdict(A)
+    return (matutil.rowdict2mat(dict([ (c , lin_comb_vec_mat_mult(dct[c], A))  for c in dct])))
+    
 
 ## Problem 17
 def dot_prod_mat_mat_mult(A, B):
@@ -232,10 +227,10 @@ solving_systems_x1 = -0.2
 solving_systems_x2 = 0.4
 solving_systems_y1 = 0.8
 solving_systems_y2 = -0.6
-solving_systems_m = Mat(({0, 1}, {0, 1}), {...})
-solving_systems_a = Mat(({0, 1}, {0, 1}), {...})
-solving_systems_a_times_m = Mat(({0, 1}, {0, 1}), {...})
-solving_systems_m_times_a = Mat(({0, 1}, {0, 1}), {...})
+solving_systems_m = 0  #Mat(({0, 1}, {0, 1}), {...})
+solving_systems_a = 0 #Mat(({0, 1}, {0, 1}), {...})
+solving_systems_a_times_m =0 # Mat(({0, 1}, {0, 1}), {...})
+solving_systems_m_times_a =0 # Mat(({0, 1}, {0, 1}), {...})
 
 
 

@@ -1,4 +1,5 @@
 from vec import Vec
+from matutil import listlist2mat
 from mat import Mat
 from bitutil import noise
 from GF2 import one
@@ -8,7 +9,7 @@ from GF2 import one
 the procedure listlist2mat in the matutil module (be sure to import first).
 Since we are working over GF (2), you should use the value one from the
 GF2 module to represent 1"""
-G = None
+G = listlist2mat([[one,0,one,one], [one,one,0,one], [0,0,0,one], [one,one,one,0], [0,0,one,0], [0,one,0,0], [one,0,0,0]])
 
 ## Task 1 part 2
 # Please write your answer as a list. Use one from GF2 and 0 as the elements.
