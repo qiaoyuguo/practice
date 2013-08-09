@@ -1,6 +1,14 @@
 from vec import Vec
 from mat import Mat
 
+def efficient_rowdict2mat(rowdict):
+  col_labels = value(rowdict).D
+  M = Mat((set(keys(rowdict)), col_labels), {})
+  for r in rowdict:
+    for c in rowdict[r].f:
+      M[r,c] = rowdict[r][c]
+  return M
+  
 def identity(D, one):
   """Given a set D and the field's one, returns the DxD identity matrix
   e.g.:
@@ -105,3 +113,7 @@ def listlist2mat(L):
   m,n = len(L), len(L[0])
   return Mat((set(range(m)),set(range(n))), {(r,c):L[r][c] for r in range(m) for c in range(n)})
 
+
+if __name__== "__main__":
+    import doctest
+    doctest.testmod()

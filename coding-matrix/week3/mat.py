@@ -3,45 +3,83 @@ from vec import Vec
 def getitem(M, k):
     "Returns the value of entry k in M.  The value of k should be a pair."
     assert k[0] in M.D[0] and k[1] in M.D[1]
-    pass
+    if k in M.f:
+        return M.f[k]
+    else:
+        return 0
 
 def setitem(M, k, val):
     "Sets the element of v with label k to be val.  The value of k should be a pair"
     assert k[0] in M.D[0] and k[1] in M.D[1]
-    pass
+    M.f[tuple(k)] = val
+
 
 def add(A, B):
     "Returns the sum of A and B"
     assert A.D == B.D
-    pass
+    mat = Mat(A.D, A.f.copy())
+    for k in B.f.keys():
+        mat[k] += B[k]
+    return mat
 
 def scalar_mul(M, alpha):
     "Returns the product of scalar alpha with M" 
-    pass
+    A = M.copy()
+    for k in A.f.keys():
+        A[k] *= alpha
+    return A
 
 def equal(A, B):
     "Returns true iff A is equal to B"
     assert A.D == B.D
-    pass
+    for k in A.f.keys():
+        if A[k] != B[k]:
+            return False
+    for k in B.f.keys():
+        if A[k] != B[k]:
+            return False
+    return True 
 
 def transpose(M):
     "Returns the transpose of M"
-    pass
+    d = (M.D[1],M.D[0])
+    f = dict()
+    for k,v in  M.f.items():
+        f[(k[1],k[0])] = v
+    return Mat(d,f)
+    
 
 def vector_matrix_mul(v, M):
     "Returns the product of vector v and matrix M"
     assert M.D[0] == v.D
-    pass
+    res = Vec(M.D[1], dict())
+    for k in M.D[1]:
+        res[k] = 0 
+        for c in v.D:
+            res[k] += v[c] * M[(c,k)]
+    return res
+
 
 def matrix_vector_mul(M, v):
     "Returns the product of matrix M and vector v"
     assert M.D[1] == v.D
-    pass
+    res = Vec(M.D[0], dict())
+    for k in M.D[0]:
+        res[k] = 0 
+        for c in v.D:
+            res[k] += v[c] * M[(k,c)]
+    return res
 
 def matrix_matrix_mul(A, B):
     "Returns the product of A and B"
     assert A.D[1] == B.D[0]
-    pass
+    res = Mat((A.D[0], B.D[1]), dict())
+    for k1 in A.D[0]:
+        for k2 in B.D[1]:
+            res[(k1,k2)] = 0
+            for k in A.D[1]:
+                res[(k1,k2)] += A[(k1,k)] * B[(k,k2)]
+    return res
 
 ################################################################################
 
@@ -110,3 +148,15 @@ class Mat:
     def __repr__(self):
         "evaluatable representation"
         return "Mat(" + str(self.D) +", " + str(self.f) + ")"
+
+#v1 = Vec({1, 2, 3}, {1: 1, 2: 8})
+#M1 = Mat(({1, 2, 3}, {1, 2, 3}), {(1, 2): 2, (2, 1):-1, (3, 1): 1, (3, 3): 7})
+#print(v1 * M1)
+
+#from GF2 import one 
+#M = Mat(({'a','b','c'}, {5}), {('a', 5):3, ('b', 5):7})
+#M['b', 5] = 9
+#M['c', 5] = 13
+#(M)
+#( Mat(({'a','b','c'}, {5}), {('a', 5):3, ('b', 5):9, ('c',5):13}))
+#(M == Mat(({'a','b','c'}, {5}), {('a', 5):3, ('b', 5):9, ('c',5):13}))

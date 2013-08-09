@@ -1,0 +1,43 @@
+1.Read Section 1.1 of the textbook. Modify UseArgument.java to make a program HiFour.java that takes four names as command-line arguments and prints out the sentence shown below with the names in the reverse of the order given, so that, for example,
+
+        % java HiFour Alice Bob Carol Dave
+
+    outputs
+
+        Hi Dave, Carol, Bob, and Alice. 
+
+2.Boolean and integer variables. Write a program Ordered.java that reads in three int command-line arguments, x, y, and z. Define a boolean variable isOrdered whose value is true if the three values are either in strictly ascending order (x < y < z) or in strictly descending order (x > y > z), and false otherwise. Print out the variable isOrdered using System.out.println(isOrdered).
+
+        % java Ordered 10 17 49
+        true
+
+        % java Ordered 49 17 10
+        true
+
+        % java Ordered 10 49 17
+        false
+
+3.Floating-point numbers and the Math library. The great circle distance is the shortest distance between two points on the surface of a sphere if you are constrained to travel along the surface. Write a program GreatCircle.java that takes four double command-line arguments x1, y1, x2, and y2 (the latitude and longitude, in degrees, of two points on the surface of the earth) and prints out the great-circle distance between them (in nautical miles) using the following formula derived from the spherical law of cosines:
+
+        Great circle distance formula 
+
+    This formula uses degrees, whereas Java's trigonometric functions use radians. Use Math.toRadians() and Math.toDegrees() to convert between the two.
+
+        % java GreatCircle 40.35 74.65 48.87 -2.33      // Princeton to Paris 
+        3185.1779271158425 nautical miles  
+
+ 4.Type conversion.   Several different formats are used to represent color. For example, the primary format for LCD displays, digital cameras, and web pages, known as the RGB format, specifies the level of red (R), green (G), and blue (B) on an integer scale from 0 to 255. The primary format for publishing books and magazines, known as the CMYK format, specifies the level of cyan (C), magenta (M), yellow (Y), and black (K) on a real scale from 0.0 to 1.0.
+
+    Write a program RGBtoCMYK.java that converts RGB to CMYK. Input three integers, red, green, and blue (not all zero), from the command line, and print the equivalent CMYK values using these formulas:
+
+        RGB to CMYK formula 
+
+    Hint. Math.max(x, y) returns the maximum of x and y.
+
+        % java RGBtoCMYK 75 0 130       // indigo
+        cyan    = 0.423076923076923
+        magenta = 1.0
+        yellow  = 0.0
+        black   = 0.4901960784313726
+
+Program style and format.  Now that your program is working, go back and look at the program itself. Did you include a header that will tell the reader who wrote the program, and what it does? (Also, if you are planning on doing any professional programming, you should get into the habit of also including instructions for compiling and running the program.) For full marks, your program should not only work correctly, but should conform to the recommended style and format so that it is easy to follow. Read Booksite Appendix B: Writing Clear Code. Follow the guidelines in the Reviewing your Programs section of the Checklist. 

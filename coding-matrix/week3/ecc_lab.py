@@ -1,4 +1,5 @@
 from vec import Vec
+from matutil import listlist2mat
 from mat import Mat
 from bitutil import noise
 from GF2 import one
@@ -8,16 +9,20 @@ from GF2 import one
 the procedure listlist2mat in the matutil module (be sure to import first).
 Since we are working over GF (2), you should use the value one from the
 GF2 module to represent 1"""
-G = None
+G = listlist2mat([[one,0,one,one], [one,one,0,one], [0,0,0,one], [one,one,one,0], [0,0,one,0], [0,one,0,0], [one,0,0,0]])
+#print(G)
 
 ## Task 1 part 2
 # Please write your answer as a list. Use one from GF2 and 0 as the elements.
-encoding_1001 = None
+encoding_1001 = G * Vec({0,1,2,3}, {0:one,  3:one})
+#print(encoding_1001)
 
 
 ## Task 2
 # Express your answer as an instance of the Mat class.
-R = None
+#R = listlist2mat( [[1.0/8,1.0/8,-1.0/4,1.0/8,-1.0/4,-1.0/4,5.0/8],[-1.0/4,1.0/4,0,1.0/4,0,1.0/2,-1.0/4],[1.0/4,-1.0/4,0,1.0/4,1.0/2,0,-1.0/4],[1.0/4,1.0/4,1.0/2,-1.0/4,0,0,-1.0/4]])
+R = listlist2mat([[0.125,0.125,-0.25,0.125,-0.25,-0.25,0.625],[-0.25,0.25,0,0.25,0,0.5,-0.25],[0.25,-0.25,0,0.25,0.5,0,-0.25],[0.25,0.25,0.5,-0.25,0,0,-0.25]])
+#print(R*G)
 
 ## Task 3
 # Create an instance of Mat representing the check matrix H.
