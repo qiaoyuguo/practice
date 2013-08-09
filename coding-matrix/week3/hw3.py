@@ -200,13 +200,13 @@ def Mv_mat_mat_mult(A, B):
     for c in dct:
         print(A * dct[c])
         v[c] = A * dct[c]
-    return matutil.coldict2mat(v)
+    #return matutil.coldict2mat(v)
 
 
 C = Mat(({0,1,2}, {'a','b'}), {(0,'a'):4, (0,'b'):-3, (1,'a'):1, (2,'a'):1, (2,'b'):-2}) 
 D = Mat(({'a','b'}, {'x','y'}), {('a','x'):3, ('a','y'):-2, ('b','x'):4, ('b','y'):-1})
-print(Mv_mat_mat_mult(C,D)) 
-print(Mat(({0,1,2}, {'x','y'}), {(0,'y'):-5, (1,'x'):3, (1,'y'):-2, (2,'x'):-5}))
+#print(Mv_mat_mat_mult(C,D)) 
+#print(Mat(({0,1,2}, {'x','y'}), {(0,'y'):-5, (1,'x'):3, (1,'y'):-2, (2,'x'):-5}))
 
 # Problem 16
 def vM_mat_mat_mult(A, B):
@@ -227,10 +227,10 @@ solving_systems_x1 = -0.2
 solving_systems_x2 = 0.4
 solving_systems_y1 = 0.8
 solving_systems_y2 = -0.6
-solving_systems_m = 0  #Mat(({0, 1}, {0, 1}), {...})
-solving_systems_a = 0 #Mat(({0, 1}, {0, 1}), {...})
-solving_systems_a_times_m =0 # Mat(({0, 1}, {0, 1}), {...})
-solving_systems_m_times_a =0 # Mat(({0, 1}, {0, 1}), {...})
+solving_systems_m = Mat(({0, 1}, {0, 1}), {(0,0):-0.2, (0,1):0.8, (1,0):0.4, (1,1):-0.6})
+solving_systems_a = Mat(({0, 1}, {0, 1}), {(0,0):3, (0,1):4, (1,0):2, (1,1):1})
+solving_systems_a_times_m = Mat(({0, 1}, {0, 1}), {(0,0):1, (1,1):1})
+solving_systems_m_times_a =Mat(({0, 1}, {0, 1}), {(0,0):1, (1,1):1})
 
 
 

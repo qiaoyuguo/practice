@@ -73,7 +73,13 @@ def matrix_vector_mul(M, v):
 def matrix_matrix_mul(A, B):
     "Returns the product of A and B"
     assert A.D[1] == B.D[0]
-    pass
+    res = Mat((A.D[0], B.D[1]), dict())
+    for k1 in A.D[0]:
+        for k2 in B.D[1]:
+            res[(k1,k2)] = 0
+            for k in A.D[1]:
+                res[(k1,k2)] += A[(k1,k)] * B[(k,k2)]
+    return res
 
 ################################################################################
 
