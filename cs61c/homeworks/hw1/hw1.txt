@@ -1,0 +1,65 @@
+CS 61C Homework 1
+Name:
+Login:
+
+
+Problem 1
+
+UNSIGNED
+0b01111111:
+0x90:
+0xE5:
+138:
+128:
+-128:
+
+SIGN&MAG
+0b01111111:
+0x90:
+0xE5:
+138:
+128:
+-128:
+
+ONE'S
+0b01111111:
+0x90:
+0xE5:
+138:
+128:
+-128:
+
+TWO'S
+0b01111111:
+0x90:
+0xE5:
+138:
+128:
+-128:
+
+BIASED
+0b01111111:
+0x90:
+0xE5:
+138:
+128:
+-128:
+
+
+Problem 2
+a. unsigned overflow:
+
+b. signed overflow:
+
+
+Problem 3
+a.
+
+b.
+
+c.
+
+d.
+
+e.
+
