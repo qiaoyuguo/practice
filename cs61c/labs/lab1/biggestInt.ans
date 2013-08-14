@@ -1,0 +1,7 @@
+1. Based on the value of the most significant bit(MSB) of an unsigned int, c data type "unsigned int" have 32 bits.
+
+2. Based on the value of the largest positive signed long, c data type "singed long" has 32 bits.
+
+3. Based on the value of the most negative int, unsigned int and unsinged int have the same number of bits
+
+4. negative of given number is to change every bit of the number to opposite and then add one to it. The most negative int is one followed by (number of bits - 1) zeros. Apply the procedure to  the most negative int I can get the same number of most negative int.
