@@ -19,7 +19,7 @@ def two_sum(dct):
     s = set()
     for k  in dct:
         for t in range(-10000, 10001):
-            if t not in s and test_two_sum(dct,target):
+            if t not in s and test_two_sum(dct,t):
                 s.add(t)
     return s
 
