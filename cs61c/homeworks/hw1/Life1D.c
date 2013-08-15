@@ -6,9 +6,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* Function declarations. You may declare additional functions here. */
 void usage(void);
+void print_arr(char *arr, int start, int end);
 
 /* Global variables. rows is the number of successive generations (after
  * the initial) you will create and print. rule is a 32-bit integer specifying
@@ -51,13 +53,55 @@ int main(int argc,char *argv[]) {
     /* You must now generate and print the initial generation and each successive generation.
      * Make sure your format follows the specifications.*/
 
-    // Your code here
+    int j,k;
+    int len = 2*rows + 5;
+    int start = 2;
+    int mid = rows + 2;
+    int end = 2*rows + start;
+
+    for(i = 0; i <= rows; i++)
+    {
+        if(i == 0)
+        {
+           rowA[mid ]  = 1;
+        }
+        else
+        {
+            memset(rowB, 0, len);
+            for(j = start; j <= end; j++)
+            {
+                int cur_key= 0;
+                for(k = -2; k <= 2; k++)
+                {
+                    cur_key = (cur_key << 1) + rowA[j+k];
+                }
+                //printf("cur_key:%d\n", cur_key);
+
+                rowB[j] = (char)((rule >> cur_key) & 0x0001);
+            }
+            memcpy(rowA, rowB, len);
+            //print_arr(rowB, start, end);
+        }
+        print_arr(rowA, start, end);
+    }
 
 
     /* Frees initialized memory and exit successfully. */
     free(rowA);
     free(rowB);
     return 0;
+}
+
+void print_arr(char *arr, int start, int end)
+{
+    int i;
+    for(i = start; i <= end; i++)
+    {
+        if(i != start)
+            printf(" ");
+        printf("%d", arr[i]);
+    }
+    printf("\n");
 }
 
 /*

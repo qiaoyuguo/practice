@@ -3,6 +3,8 @@
  * Name:
  * Login:
  */
+/* for problem 4 part 1 */
+/* compile: gcc -o maxstring1 -std=c99 maxstring1.c */
 
 #include <stdio.h>
 
@@ -25,7 +27,15 @@ int main(int argc, char* argv[]) {
  * Counts the number of times a given character is present in a string.
  */
 int charcount(char* str, char c) {
-    // Your code here
+    int count = 0;
+    while(*str != '\0')
+    {
+        if(*str == c)
+            ++count;
+        str++;
+    }
+
+    return count;
 }
 
 /*
@@ -34,5 +44,25 @@ int charcount(char* str, char c) {
  * empty or if the character does not exist in any of the strings, an empty string is returned.
  */
 char* maxstring(char* str_arr[], int num, char c) { 
-    // Your code here
+    int i;
+
+    int max = 0;
+    int index = -1;
+
+    if(str_arr == NULL)
+        return "";
+    for(i = 0; i < num; i++)
+    {
+        int cur_count = charcount(str_arr[i], c);
+        if(cur_count > max)
+        {
+            max = cur_count;
+            index = i;
+        }
+    }
+
+    if(index == -1)
+        return "";
+    return str_arr[index];
 }
+
