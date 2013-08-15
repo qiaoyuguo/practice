@@ -37,7 +37,7 @@ static void failed_allocation(void) {
 static list_t *new_node(const char *value) {
     list_t *node = malloc(sizeof(list_t));
     if (!node) failed_allocation();
-    node->value = malloc(strlen(value));
+    node->value = malloc(strlen(value)+1);
     if (!node->value) failed_allocation();
     strcpy(node->value, value);
     return node;
@@ -80,6 +80,8 @@ list_t *list_prepend(list_t *list, const char *value) {
 list_t *list_remove(list_t *list, list_t *node) {
     node->prev->next = node->next;
     node->next->prev = node->prev;
+    if(node->value != NULL)
+        free(node->value);
     free(node);
     if (list != node) {
         return list;

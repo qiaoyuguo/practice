@@ -48,16 +48,16 @@ vector_t *vector_new() {
 /* Free up the memory allocated for the passed vector */
 void vector_delete(vector_t *v) {
 	/* Remember, you need to free up ALL the memory that is allocated */
-	
-
-
-
-
-	/* ADD CODE HERE */
-
-
-
-
+    if(v != NULL)
+    {
+        if(v->data != NULL)
+        {
+            free(v->data);
+            v->data = NULL;
+        }
+        free(v);
+        v = NULL;
+    }
 }
 
 /* Return the value in the vector */
@@ -74,7 +74,7 @@ int vector_get(vector_t *v, size_t loc) {
 	/* If the requested location is higher than we have allocated, return 0.
 	 * Otherwise, return what is in the passed location.
 	 */
-	if(loc < v->size) {
+	if(loc <= v->size) {
 		return v->data[loc];
 	} else {
 		return 0;
@@ -88,11 +88,28 @@ void vector_set(vector_t *v, size_t loc, int value) {
 	 * allocated?  Remember that unset locations should contain a value of 0.
 	 */
 
-
-
 	/* ADD CODE HERE */
 
-
-
-
+        if(v == NULL) {
+            fprintf(stderr, "vector_set: passed a NULL vector.\n");
+            abort();
+	}
+	if(loc <= v->size)
+        {
+            v->data[loc] = value;
+            
+            return;
+        }
+        int *data = realloc(v->data, 2 * loc * sizeof(int));
+        if(data== NULL)
+        {
+            fprintf(stderr, "vector_set: memory exausted");
+            abort();
+        }
+        else
+        {
+            v->data = data;
+        }
+        v->size = 2*loc;
+        v->data[loc] = value;
 }
