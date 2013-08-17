@@ -1,0 +1,67 @@
+CS 61C Homework 1
+Name:
+Login:
+
+
+Problem 1
+
+UNSIGNED
+0b01111111:
+0x90: 144
+0xE5: 245
+138: 0x8A
+128: 0x70
+-128: n/a
+
+SIGN&MAG
+0b01111111: +127
+0x90: -16
+0xE5: -101
+138: -10
+128: -0
+-128: n/a
+
+ONE'S
+0b01111111: +127
+0x90: +111
+0xE5: +26
+138: +117
+128: +127
+-128: n/a
+
+TWO'S
+0b01111111: -127
+0x90: -112
+0xE5: -12
+138:  n/a
+128: n/a
+-128: 0x80
+
+BIASED
+0b01111111: 0
+0x90: 16
+0xE5: 117
+138: 0x0A
+128: 0x01
+-128: n/a
+
+
+Problem 2
+a. unsigned overflow:
+(0101, 1111) (0110, 1110) (0111,1101) (1000, 1100) (1001,1011) (1010,1010) 
+b. signed overflow:
+(1000, 1100) (1001,1011) (1010,1010) 
+
+Problem 3
+a.
+2147483648 cats = 2^31 cats = 2GiB cats
+b.
+128ZiB = 128*(1024^7) 512TiB = 512 * (1024^4)
+so 128ZiB/512TiB = 256*1024^2 = 256MiB
+c.
+16 'ABCD multiple-choice' question has 4^16 = 2^32 = 4GiB 
+d.
+42 question has 4^42 = 2^84 = 16YiB
+e.
+8 'T/F exam' every year for 8 years.
+so the total question number is: 2^8 * 8 = 2^11 = 2KiB

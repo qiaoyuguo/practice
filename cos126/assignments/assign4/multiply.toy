@@ -1,0 +1,40 @@
+Name:     Kevin Wayne
+Login:    wayne
+Precept:  P00
+Filename: multiply.toy
+
+This program reads two 16-bit integers from stdin,
+computes their product, and writes it to stdout.
+
+Use "java TOY multiply.toy" to run the program.
+
+Sample run:
+% java TOY multiply.toy
+<initial core dump>
+2
+3
+0006
+<final core dump>
+
+Note, this is not a very *fast* way to multiply.
+-----------------------------------------------------------------------------
+loc value  pseudocode (for the humans)   Java equivalent (optional)
+-----------------------------------------------------------------------------
+10: 8AFF   read R[A]                     a = StdIn.readInt();
+11: 8BFF   read R[B]                     b = StdIn.readInt();
+
+12: 7C00   R[C] <- 0000                  c = 0;
+13: 7101   R[1] <- 0001                  the constant 1
+
+14: CA18   if (R[A] == 0) goto 18        while (a != 0) {
+15: 1CCB   R[C] <- R[C] + R[B]              c += b;
+16: 2AA1   R[A] <- R[A] - R[1]              a -= 1;
+17: C014   goto 14                       }
+
+18: 9CFF   write R[C]                    StdOut.println(c);      
+19: 0000   halt                          
+-----------------------------------------------------------------------------
+Note: TOY.java ignores any line that is not of the form
+LL: VVVV   ... 
+where LL are two hex digits, VVVV are four hex digits, and ... are comments.
+The number of spaces is not important.

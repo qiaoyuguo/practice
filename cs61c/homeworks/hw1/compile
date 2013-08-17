@@ -1,0 +1,7 @@
+gcc -o Life1D -std=c99 Life1D.c
+./Life1D 3 58979
+./Life1D 5 32384626
+./Life1D 4 4338327
+./Life1D 17 3141592653
+
+./Life1D 17 3141592653 | ./scale.sh 10 | ppmtogif > Life1D_17_3141592653.gif

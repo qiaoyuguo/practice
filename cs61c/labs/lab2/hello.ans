@@ -1,0 +1,6 @@
+1. command to show the value of argc
+    p argc
+2. command to show argv
+    p *argv
+3. command to stop program at the point where ch is the comma character
+    b 12 if ch == ','

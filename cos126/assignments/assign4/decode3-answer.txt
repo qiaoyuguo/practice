@@ -1,0 +1,9 @@
+Input                                   Answer
+----------------------------------      -------
+0001 0000 0000 0001 0001 0000 0000      1 1 0 1
+0000 0001 0001 0000 0000 0000 0000      1 1 1 0
+0001 0001 0001 0001 0001 0001 0000      1 1 1 1
+FFFF
+
+Note that your answer will have one integer per line and it will
+be printed as 0000 or 0001.

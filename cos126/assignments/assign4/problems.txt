@@ -1,0 +1,59 @@
+Hamming Codes in TOY 	Programming Assignment
+
+Write a TOY program to encode data using Hamming codes. Then write a TOY program to correct encoded data that has been corrupted.
+
+Perspective.  Error-correcting codes enable data to be sent through a noisy communication channel without corruption. To accomplish this, the sender appends redundant information to the message, so that even if some of the original data is corrupted during transmission, the receiver can still recover the original message intact. Transmission errors are common and can arise from scratches on a CD, static on a cell phone, or atmospheric interference. In a noisy environment, error-correcting codes can increase the throughput of a communication link since there is no need to retransmit the message if it becomes partially corrupted during transmission. For this reason, error-correcting codes are used in many common systems including: storage devices (CD, DVD, DRAM), mobile communication (cell phones, wireless, microwave links), digital television, and high-speed modems (ADSL, xDSL).
+
+Hamming Codes.   A Hamming code is a specific type of error-correcting code that allows the detection and correction of single-bit transmission errors. Hamming codes are used in many applications where such errors are common, including DRAM memory chips and satellite communication hardware. Hamming codes work by repeatedly reading four message bits, which we denote by m1, m2, m3, m4, and then inserting three parity bits, which we denote by p1, p2, and p3. If any one of these seven bits is corrupted during transmission, the receiver can detect the error and recover the original four message bits intact. This is called single-bit error correction because at most one bit can be corrected per unit of data sent. The overhead for using this method is a 75% increase in bandwidth because it requires three extra parity bits for every four message bits. This compares favorably with the naive approach of sending three copies of each bit (and using the one that appears most frequently), which results in a 200% increase in bandwidth.
+
+Before we describe the algebra of Hamming codes, we first visualize the calculation of the parity bits using Venn diagrams. As an example, suppose we wish to send the message 1101. We associate each of the four message bits with a specific intersection region of three pairwise overlapping circles, as illustrated below:
+
+      
+The Hamming code adds three parity bits so that each of the three circles has even parity.
+
+      
+That is, the sum of the four bits contained in each of the three circles is even:
+
+For this example, the three parity bits are 1 (top), 0 (left), and 0 (right). So, to send a version of the message 1101 that is robust against errors, the actual message we send is the 7-bit message 1101100.
+
+Now imagine this picture is transmitted over a noisy communication channel, and that one bit is corrupted so that the following picture arrives at the receiving station (corresponding to 1001100):
+
+The receiver discovers that an error occurred by checking the parity of the three circles. Moreover, the receiver can identify where the error occurred (the second bit) and recover the four original message bits!
+
+The parity check for the top circle and right circle failed, but the left circle was ok. So, the only 7-bit message that balances all three parity checks and has at most one changed bit is the one obtained by flipping m2, since m2 represents the intersection of exactly those two circles. Thus the receiver knows that the message originally sent was 1101100 — representing the four message bits 1101 plus the three parity check bits 100. This achieves the goal, since the original message bits sent were indeed 1101.
+
+If the center bit m4 is corrupted, then all three parity checks will fail. If a parity bit itself is corrupted, then only one parity check will fail. If the communication channel is so noisy that two or more bits are simultaneously corrupted, then the scheme will not work. Can you see why? More sophisticated types of error-correcting codes can handle such situations.
+
+Of course, in practice, only the 7 bits are transmitted, rather than the circle diagrams.
+
+Part 1. Write a TOY program encode.toy to encode a binary message using the scheme described above. Your program should repeatedly read four bits m1, m2, m3, and m4 from TOY standard input until reading in FFFF and write the seven bits m1, m2, m3, m4, p1, p2, p3 to TOY standard output, where
+p1 = m1 ^ m2 ^ m4
+p2 = m1 ^ m3 ^ m4
+p3 = m2 ^ m3 ^ m4
+Recall that ^ is the exclusive or operator in Java and TOY. This captures the parity notion described above.
+
+Part 2. Write a TOY program decode.toy to correct a Hamming encoded message. Your program should repeatedly read seven bits m1, m2, m3, m4, p1, p2, p3 from TOY standard input until reading in FFFF and write four bits to TOY standard output. Recall, to determine which one, if any, of the message bits is corrupted, perform the following three parity checks:
+
+    p1 = m1 ^ m2 ^ m4
+    p2 = m1 ^ m3 ^ m4
+    p3 = m2 ^ m3 ^ m4 
+
+Compare the parity bits you computed with the parity bits you received. If they don't match, then some bit got flipped. Here's a summary of what to do with the results:
+If exactly zero or one of the parity checks fail, then all four message bits are correct.
+If checks 1 and 2 fail (but not check 3), then bit m1 is incorrect.
+If checks 1 and 3 fail (but not check 2), then bit m2 is incorrect.
+If checks 2 and 3 fail (but not check 1), then bit m3 is incorrect.
+If all three checks fail, then bit m4 is incorrect.
+Flip the corrupted message bit (if necessary) and write m1, m2, m3, and m4 to standard output.
+
+Input format. For convenience, we'll transmit each bit individually (as 0000 or 0001), instead of packing 16 bits per TOY word as would be done in a real application. Your programs should repeatedly read in four or seven bits from standard input until FFFF appears on TOY standard input. The number of transmitted bits (not including the terminating FFFF) will be a multiple of four when encoding and a multiple of seven when decoding.
+
+The files provided this week include sample inputs for encode.toy and decode.toy, such as the one illustrated below.
+
+    % more encode3.txt
+    0001 0001 0000 0001
+    0001 0001 0001 0000
+    0001 0001 0001 0001
+    FFFF 
+
+Note that the line breaks are not essential, but are included for readability. 
