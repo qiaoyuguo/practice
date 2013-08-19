@@ -11,8 +11,8 @@ main:   la      $a0,source
 loop:   lw      $v1, 0($a0)     # read next word from source
         addiu   $v0, $v0, 1     # increment count words copied
         sw      $v1, 0($a1)     # write to destination
-        addiu   $a0, $a0, 1     # advance pointer to next source
-        addiu   $a1, $a1, 1     # advance pointer to next dest
+        addiu   $a0, $a0, 4     # advance pointer to next source, as each word is 4 bytes, so must add 4 to next position
+        addiu   $a1, $a1, 4     # advance pointer to next dest, same as last line
         bne     $v1, $zero, loop# loop if word copied not zero
 
 loopend:

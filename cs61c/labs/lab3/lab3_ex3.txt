@@ -1,0 +1,35 @@
+1. what do the .data, .word, .text directives mean?
+.data means data segment, .text means beginning code segment. .word means to allocate space and store data whose size is word.
+
+2. Find the Text Segment in the Execute tab, What happened to the pesudo-instruction la(line 9).
+load address of n to register t3
+
+3. How do you set a breakpoint in MARS? Set a breakpoint on line 14 and run to it. What is the instruction address? Has line 14 executed yet?
+First: "Run"->"Assemble" 
+Second: In "Execute" tab, select the checkbox before the target instruction.
+Third: run "Run" -> "Go"
+The instruction address is 0x00400020
+Now line 14 has not beeen  executed.
+
+4. Once at a breakpoint, how do you continue to execute your code? How do you step through your code? Run the code to completion.
+I can use "Step" to step through code, or else "go" to run to completion.
+
+5. Find the "Run I/O" window. What number did the program ouput? Which fib number is this?
+The output number is 34. 34 is the 9th fibonicci number.
+fibonacci series:0 1 1 2 3 5 8 13 21 34
+index            0 1 2 3 4 5 6  7  8  9
+
+
+6. At what address is n stored in memory? Try finding this by(1)looking at the Data Segment and (2) looking at the machine code.
+By looking at the Data Segment, the address of n is 0x10010010
+By looking at the machine code, the address is 0x0010
+
+7.Without using the "Edit" tab, have the program calculate the 13th fib number by manually modify this memory location before execution.
+Yes, we can set breakpoint on line 3, and run to this line, then modify the value to 0x0000000d, then run to completion, we can get  233
+
+8. How do you view and modify the contents of a register? Reset the simulation(Run -> Reset or F12) and now calculate the 13th fib number by (1)breaking at a well-chosen spot, (2) modifying a single register, and then (3)unsetting the breakpoint.
+Set breakpoint on line 11, then change register t3 to 0x0000000d, then cancel the breakpoint and run to completion, then we can get 233.
+
+9.Lines 19 and 21 ue the syscall instruction. What is it and how do you use it?
+Follow the help menu.In line 19, the code in $v0 is 1, then it is used to print an integer. In line 21, the code in $v0 is 10, then it is used to terminate the program.
+
