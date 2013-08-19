@@ -1,0 +1,48 @@
+***Parse and echo airports***
+SJC
+SFO
+SEA
+DFW
+SMF
+
+***Parse and echo schedules***
+Adding schedule for airport SJC
+SJC
+DFW 07:30 09:30 $170
+DFW 10:30 12:30 $180
+DFW 13:30 15:30 $150
+SMF 07:00 09:00 $230
+SMF 09:30 11:30 $230
+Adding schedule for airport SFO
+SFO
+SJC 06:00 09:00 $200
+SJC 08:00 11:00 $300
+SJC 10:00 13:00 $250
+SJC 12:00 15:00 $250
+SEA 10:00 13:00 $320
+SEA 15:00 18:00 $320
+DFW 11:30 13:00 $180
+DFW 14:00 15:30 $180
+DFW 15:30 17:00 $180
+Adding schedule for airport DFW
+DFW
+SJC 12:00 14:00 $150
+SFO 09:30 11:00 $180
+SFO 11:00 13:30 $180
+SFO 13:30 15:00 $180
+SMF 13:00 16:30 $400
+SMF 16:00 19:30 $400
+Adding schedule for airport SMF
+SMF
+SFO 06:00 07:00 $220
+SFO 09:00 10:00 $240
+SFO 12:00 13:00 $250
+DFW 09:00 12:30 $400
+DFW 12:00 15:30 $400
+
+***Parse and calculate route times***
+Route SIMPLE will be completed by 13:00 and costs $250
+Route IMPOSSIBLE cannot be completed
+Route LONG will be completed by 18:00 and costs $800
+Route TOO_LATE cannot be completed
+Route LOOP will be completed by 19:30 and costs $1020

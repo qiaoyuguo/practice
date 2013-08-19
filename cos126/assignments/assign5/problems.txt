@@ -1,0 +1,135 @@
+Linear Feedback Shift Register 	Programming Assignment
+
+Write a program that produces pseudo-random bits by simulating a linear feedback shift register, and then use it to implement a simple form of encryption for digital pictures.
+
+LFSR review.  A linear feedback shift register is a register of bits that performs discrete step operations that
+
+    Shift all of the bits one position to the left and
+
+    Replaces the vacated bit by the exclusive or of the bit shifted off and the bit at a given tap position in the register.
+
+A LFSR has three parameters that characterize the sequence of bits it produces: the number of bits N, the initial seed (the sequence of bits that initializes the register), and the the tap position tap. As in the example in Lecture 1, the following illustrates one step of an 11-bit LFSR with initial seed 01101000010 and tap position 8.
+
+LFSR
+
+LFSR data type.  Your first task is to write a data type that simulates the operation of a LFSR by implementing the following API:
+
+    public class LFSR
+    -------------------------------------------------------------------------------------------------------------------------------
+    public             LFSR(String seed, int tap)  //  constructor to create LFSR with the given initial seed and tap
+    public         int step()                      //  simulate one step and return the new bit as 0 or 1
+    public         int generate(int k)             //  simulate k steps and return k-bit integer
+    public      String toString()                  //  return a string representation of the LFSR
+    public static void main(String[] args)         //  test all of the methods in LFSR
+
+To do so, you need to choose the internal representation (instance variables), implement the constructor, and implement the three instance methods. These are interrelated activities and there are several viable approaches.
+
+    Constructor. The constructor takes the initial seed as a String argument whose characters are a sequence of 0s and 1s. The length of the register is the length of the seed. We will generate each new bit by xoring the leftmost bit and the tap bit. The position of the tap bit comes from the constructor argument. For example, the following code should create the LFSR described above.
+
+        LFSR lfsr = new LFSR("01101000010", 8);
+
+    String representation. The toString() method returns a string representation of the LFSR by concatenating the values in the registers. For example,
+
+        LFSR lfsr = new LFSR("01101000010", 8);
+        StdOut.println(lfsr);                   // promotion via .toString()
+
+    should output
+
+        01101000010
+
+    Simulate one step. The step() method simulates one step of the LFSR and returns the rightmost bit as an integer (0 or 1). For example,
+
+        LFSR lfsr = new LFSR("01101000010", 8);
+        for (int i = 0; i < 10; i++) {
+            int bit = lfsr.step();
+            StdOut.println(lfsr + " " + bit);
+        }
+
+    should output
+
+        11010000101 1
+        10100001011 1
+        01000010110 0
+        10000101100 0
+        00001011001 1
+        00010110010 0
+        00101100100 0
+        01011001001 1
+        10110010010 0
+        01100100100 0
+
+    Extracting multiple bits.  The method generate() takes an integer k as an argument and returns a k-bit integer obtained by simulating k steps of the LFSR. This task is easy to accomplish with a little arithmetic: initialize a variable to zero and, for each bit extracted, double the variable and add the bit returned by step(). For example, given the bit sequence 1 1 0 0 1 the variable takes the values 1, 3, 6, 12, 25, ending with the binary representation of the bit sequence. For example,
+
+        LFSR lfsr = new LFSR("01101000010", 8);
+        for (int i = 0; i < 10; i++) {
+            int r = lfsr.generate(5);
+            StdOut.println(lfsr + " " + r);
+        }
+
+    should output
+
+        00001011001 25
+        01100100100 4
+        10010011110 30
+        01111011011 27
+        01101110010 18
+        11001011010 26
+        01101011100 28
+        01110011000 24
+        01100010111 23
+        01011111101 29
+
+    Implement the generate() method by calling the step() method k times and performing the necessary arithmetic. 
+
+A client to encrypt and decrypt images.  Your final task is write a LFSR client PhotoMagic.java that can encrypt and decrypt pictures, by implementing the following API:
+
+    public class PhotoMagic
+    -----------------------------------------------------------------------------------------------------------------------------
+    public static Picture transform(Picture picture, LFSR lfsr)  // return a transformed copy of picture using lfsr
+
+    public static    void main(String[] args)                    // read in the filename of a picture and the description of an
+                                                                 // LFSR from the command line and display an encrypted copy of 
+                                                                 // the picture.  Use the LFSR to do the encryption.
+
+For most people the Picture class we're using is already installed on your system. See pp. 324–337 in the textbook and the checklist for more information.
+
+    Transform method. The transform() method takes a Picture and an LFSR as arguments and returns a new picture that is the result of transforming the argument picture using the linear feadback shift register as follows: For each pixel (x, y), in column major order—(0, 0), (0, 1), (0, 2), ... —extract the red, green, and blue components of the color (each component is an integer between 0 and 255). Then, xor the red component with 8 newly generated bits. Do the same for the green (using another 8 newly generated bits) and, finally, the blue. Create a new color using the result of the xor operations, and set the pixel in the new picture to that color.
+    You should not modify the original picture parameter. In other words, construct a new Picture and after setting the colors of its pixels, return it.
+
+    Main method. The main() method takes three command-line arguments: a picture filename, a binary password (the initial LFSR seed), and an integer (the tap number). It should display the transformed picture on the screen (using the show() method in the Picture class). For example, typing
+
+        % java PhotoMagic pipe.png 01101000010100010000 16
+
+    takes as input the picture pipe.png (left) and displays as output the picture on the right. You can save the right-hand picture as Xpipe.png by selecting File -> Save -> Xpipe.png from the menu in the window where the image is displayed.
+
+           	Magritte pipe 	Noise
+
+    Now, here's the magic: running the same program with the same binary password and tap on the transformed picture recovers the original picture! For example, typing
+
+        % java PhotoMagic Xpipe.png 01101000010100010000 16
+
+    takes as input the picture Xpipe.png (left) and displays as output the picture on the right.
+
+           	Noise 	Magritte pipe
+
+    Anyone knowing this password and tap can get the original picture back, but another password won't work. If you're not convinced, try it. Thus, for example, you can post the transformed picture on the web, but only friends who have the password (and your program) can see the original. 
+
+Files for this assignment. Here is the readme.txt template for this week. There are additional optional files on the checklist: a template for LFSR.java giving one way of getting started, and sample pictures for testing.
+
+Style.   When implementing a class, include a comment next to each instance variable (field) indicating its purpose, and one above each method (function) documenting what it does.
+
+Submission.   Submit LFSR.java, PhotoMagic.java, and a completed readme.txt file.
+
+Extra credit.  Using a short binary password is weak protection and using a long one is inconvenient. For extra credit, write a client PhotoMagicDeluxe.java with the same API as PhotoMagic.java, but use an alphanumeric password instead of a binary one. Assume that the password contains only characters from the 64-character alphabet:
+
+    String base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+Interpret an N-character alphanumeric password as a 6N-character binary password, where the ith character in the 64-character alphabet is expanded to the 6-bit binary representation of i. For example, the 10-character alphanumeric password OPENSESAME corresponds to the 60-character binary password 001110001111000100001101010010000100010010000000001100000100.
+
+To earn extra credit, you must work modularly. Do not copy huge chunks of code from PhotoMagic.java to PhotoMagicDeluxe.java. Instead, call PhotoMagic.transform(). Optionally, as an alternative, read about inheritance which is not a topic for this course, then inherit your extra credit class from PhotoMagic while overriding only main. (If you use inheritance, ignore the two API warnings for PhotoMagicDeluxe about superclasses not matching and transform missing.)
+
+Challenge for the bored.  Write a program BreakPhotoMagic.java that takes the filename of an encrypted picture and the number of bits N in the password as command-line arguments, tries all possible binary passwords of length N and all possible taps, and decrypts the picture.
+
+Hint: all but the correct seed and tap will produce pseudo-random colors, so you can track the frequencies of each 8-bit value and pick the seed and tap that results in the frequencies that deviate the most from 128.
+
+Warning: this program can take a very long time to run; we recommend debugging it using pictures transformed with binary passwords of length 5 or 6. 
