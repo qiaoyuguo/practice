@@ -42,25 +42,25 @@ public class PercolationStats {
    		else
    			return Math.sqrt(sum / (percNumbers.length - 1));
    }
-   public double confidenceLow()            // low end of 95% confidence interval
+   public double confidenceLo()            // low end of 95% confidence interval
    {
    		double mn = mean();
    		double sdv = stddev();
    		return (mn-1.96*sdv/(Math.sqrt(percNumbers.length)));
    }
-   public double confidenceHigh()           // high end of 95% confidence interval
+   public double confidenceHi()           // high end of 95% confidence interval
    {
    		double mn = mean();
    		double sdv = stddev();
    		return (mn+1.96*sdv/(Math.sqrt(percNumbers.length)));   
    } 
-   public static void printResult(int N, int T)
+   private static void printResult(int N, int T)
    {
   		PercolationStats pst = new PercolationStats(200, 100);
   		System.out.println("mean()   =" + pst.mean());
   		System.out.println("stddev() =" + pst.stddev());
-  		System.out.println("confidenceLow() = " + pst.confidenceLow());
-  		System.out.println("confidenceHigh() = " + pst.confidenceHigh());
+  		System.out.println("confidenceLow() = " + pst.confidenceLo());
+  		System.out.println("confidenceHigh() = " + pst.confidenceHi());
    }
    public static void main(String[] args)   // do unit testing of this class
    {

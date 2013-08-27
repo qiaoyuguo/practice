@@ -12,7 +12,7 @@ public class Percolation {
                 grid[i][j] = false;
     }
 
-    public int conv(int i, int j)
+    private int conv(int i, int j)
     {
         return i *  grid.length + j;
     }
