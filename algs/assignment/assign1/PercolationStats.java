@@ -64,6 +64,8 @@ public class PercolationStats {
    }
    public static void main(String[] args)   // do unit testing of this class
    {
-	   printResult(2,1000);
+           int N = Integer.parseInt(args[0]);
+           int T = Integer.parseInt(args[1]);
+	   printResult(N,T);
    }
 }
