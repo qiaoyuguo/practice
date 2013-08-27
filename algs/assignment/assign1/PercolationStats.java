@@ -10,8 +10,8 @@ public class PercolationStats {
    			Percolation pct = new Percolation( N);
    			while(!pct.percolates())
    			{
-   				int i = StdRandom.uniform(N);
-   				int j = StdRandom.uniform(N);
+   				int i = StdRandom.uniform(N)+1;
+   				int j = StdRandom.uniform(N)+1;
    				if(!pct.isOpen(i,j))
    				{
    					++count;

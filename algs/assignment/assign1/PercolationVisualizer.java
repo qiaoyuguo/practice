@@ -12,15 +12,16 @@
  *
  *  After each site is opened, it draws full sites in light blue,
  *  open sites (that aren't full) in white, and blocked sites in black,
- *  with with site (0, 0) in the upper left-hand corner.
+ *  with with site (1, 1) in the upper left-hand corner.
  *
  ****************************************************************************/
 
 import java.awt.Font;
 
 public class PercolationVisualizer {
+
     // delay in miliseconds (controls animation speed)
-    private final static int delay = 100;
+    private static final int DELAY = 100;
 
     // draw N-by-N percolation system
     public static void draw(Percolation perc, int N) {
@@ -32,8 +33,8 @@ public class PercolationVisualizer {
 
         // draw N-by-N grid
         int opened = 0;
-        for (int row = 0; row < N; row++) {
-            for (int col = 0; col < N; col++) {
+        for (int row = 1; row <= N; row++) {
+            for (int col = 1; col <= N; col++) {
                 if (perc.isFull(row, col)) {
                     StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
                     opened++;
@@ -44,7 +45,7 @@ public class PercolationVisualizer {
                 }
                 else
                     StdDraw.setPenColor(StdDraw.BLACK);
-                StdDraw.filledSquare(col + 0.5, N - row - 0.5, 0.45);
+                StdDraw.filledSquare(col - 0.5, N - row + 0.5, 0.45);
             }
         }
 
@@ -57,61 +58,23 @@ public class PercolationVisualizer {
 
     }
 
-    // file input
-    private static void simulateFromFile(String filename) {
-        In in = new In(filename);
-        int N = in.readInt();
-        Percolation perc = new Percolation(N);
+    public static void main(String[] args) {
+        In in = new In(args[0]);      // input file
+        int N = in.readInt();         // N-by-N percolation system
 
         // turn on animation mode
-        StdDraw.show(0); 
+        StdDraw.show(0);
 
         // repeatedly read in sites to open and draw resulting system
+        Percolation perc = new Percolation(N);
         draw(perc, N);
-        StdDraw.show(delay);
+        StdDraw.show(DELAY);
         while (!in.isEmpty()) {
             int i = in.readInt();
             int j = in.readInt();
             perc.open(i, j);
             draw(perc, N);
-            StdDraw.show(delay);
-        }
-    }
-
-    // random input
-    private static void simulateFromRandom(int N) {
-        // repeatedly generate sites at random and draw resulting system
-        Percolation perc = new Percolation(N);
-
-        // turn on animation mode
-        StdDraw.show(0);
-
-        // repeatedly open sites until system percolates and draw resulting system
-        PercolationVisualizer.draw(perc, N);
-        StdDraw.show(delay);
-        while (!perc.percolates()) {
-            int i = StdRandom.uniform(N);
-            int j = StdRandom.uniform(N);
-            if (!perc.isOpen(i, j)) {
-                perc.open(i, j);
-                draw(perc, N);
-                StdDraw.show(delay);
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        if (args.length >= 2) throw new RuntimeException("Command line argument should be a filename or integer");
-        else if (args.length == 0) simulateFromRandom(10);
-        else {
-            try {
-                int N = Integer.parseInt(args[0]);
-                simulateFromRandom(N);
-            }
-            catch (NumberFormatException e) {
-                String filename = args[0];
-                simulateFromFile(filename);
-            }
+            StdDraw.show(DELAY);
         }
     }
 }
