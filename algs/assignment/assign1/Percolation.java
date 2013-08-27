@@ -1,12 +1,12 @@
 //import algs.QuickFindUF;
 public class Percolation {
     private boolean [][]grid;
-    private QuickFindUF quf;
+    private WeightedQuickUnionUF quf;
   
     public Percolation(int N)              // create N-by-N grid, with all sites blocked
     {
         int n = N + 1;
-        quf = new QuickFindUF(n*n);
+        quf = new WeightedQuickUnionUF(n*n);
         grid = new boolean[n][n];
         for(int i = 1; i < n; i++)
             for(int j = 1; j < n; j++)
@@ -59,6 +59,8 @@ public class Percolation {
             throw new IndexOutOfBoundsException("row index " + i + " must be between 1 and " + (len-1));
         if(j <= 0 || j >= len)
             throw new IndexOutOfBoundsException("column index " + i + " must be between 1 and " + (len-1));
+        if(!isOpen(i,j))
+            return false;
         for(int k = len+1; k < len+len; k++)
         {
             int idx = conv(i,j);
