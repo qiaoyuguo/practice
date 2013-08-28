@@ -11,6 +11,8 @@ public class Percolation {
         for(int i = 1; i < n; i++)
             for(int j = 1; j < n; j++)
                 grid[i][j] = false;
+        grid[0][0] = false; // virtual top site
+        grid[0][1] = false; // virtual bottom site
     }
 
     private int conv(int i, int j)
@@ -22,6 +24,17 @@ public class Percolation {
     	if(isOpen(i,j))
     		return;
         grid[i][j] = true;
+        if(i == 1)
+        {
+            grid[0][0] = true;
+            quf.union(0, conv(i,j));
+        }
+        if(i == grid.length - 1)
+        {
+            grid[0][1] = true;
+            quf.union(1, conv(i,j));
+        }
+
         int []direct  = {-1, 1};
         for(int k = 0; k <= 1; k++)
         {
@@ -61,22 +74,11 @@ public class Percolation {
             throw new IndexOutOfBoundsException("column index " + i + " must be between 1 and " + (len-1));
         if(!isOpen(i,j))
             return false;
-        for(int k = len+1; k < len+len; k++)
-        {
-            int idx = conv(i,j);
-            //System.out.println("i:"+i+ "j:" + j + "idx:" + idx);
-            if(quf.connected(k, idx))
-                return true;
-        }
-        return false;
+        return quf.connected(0, conv(i,j));
     }
     public boolean percolates()            // does the system percolate?
     {
-        int n = grid.length;
-        for(int i = 1; i < n; i++)
-            if(isFull(n-1, i))
-                return true;
-        return false;
+        return quf.connected(0,1);
     }
     private static String bool2str(boolean b) 
     {
