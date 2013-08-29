@@ -2,11 +2,13 @@
 public class Percolation {
     private boolean [][]grid;
     private WeightedQuickUnionUF quf;
+    private WeightedQuickUnionUF quf2;
   
     public Percolation(int N)              // create N-by-N grid, with all sites blocked
     {
         int n = N + 1;
         quf = new WeightedQuickUnionUF(n*n);
+        quf2 = new WeightedQuickUnionUF(n*n);
         grid = new boolean[n][n];
         for(int i = 1; i < n; i++)
             for(int j = 1; j < n; j++)
@@ -28,6 +30,7 @@ public class Percolation {
         {
             grid[0][0] = true;
             quf.union(0, conv(i,j));
+            quf2.union(0, conv(i,j));
         }
         if(i == grid.length - 1)
         {
@@ -43,7 +46,10 @@ public class Percolation {
             if(x <= 0 || y <=0 || x >= grid.length || y >= grid.length)
                 continue;
             if(isOpen(x,y))
+            {
                 quf.union(conv(x,y), conv(i,j));
+                quf2.union(conv(x,y), conv(i,j));
+            }
         }
         for(int k = 0; k <= 1; k++)
         {
@@ -52,7 +58,10 @@ public class Percolation {
             if(x <= 0 || y <=0 || x >= grid.length || y >= grid.length)
                 continue;
             if(isOpen(x, y))
+            {
                 quf.union(conv(x,y), conv(i,j));
+                quf2.union(conv(x,y), conv(i,j));
+            }
         }
     }
     
@@ -74,7 +83,7 @@ public class Percolation {
             throw new IndexOutOfBoundsException("column index " + i + " must be between 1 and " + (len-1));
         if(!isOpen(i,j))
             return false;
-        return quf.connected(0, conv(i,j));
+        return quf2.connected(0, conv(i,j));
     }
     public boolean percolates()            // does the system percolate?
     {
@@ -83,32 +92,56 @@ public class Percolation {
     private static String bool2str(boolean b) 
     {
         if(b)
-            return "true";
+            return "t";
         else
-            return "false";
+            return "f";
+    }
+    private boolean getTop()
+    {
+        return grid[0][0];
+    }
+    private boolean getBottom()
+    {
+        return grid[0][1];
     }
     public static void main(String[] args)
     {
         In in = new In(args[0]);
         int N = in.readInt();         // N-by-N percolation system
+        int count = 0;
         Percolation perc = new Percolation(N);
         while (!in.isEmpty()) {
-            int i = in.readInt();
-            int j = in.readInt();
-            perc.open(i, j);
-        }
+            int r = in.readInt();
+            int c = in.readInt();
+            perc.open(r, c);
+            System.out.println("r:"+r+"c:"+c);
+            ++count;
 
-        for(int i = N+1+1; i < (N+1)*(N+1); i++)
-        {
-            for(int j = i+1; j< (N+1)*(N+1); j++)
+            System.out.println("open condition:");
+            for(int i = 1; i <= N; i++)
             {
-                System.out.println(i + " " + j + " " + bool2str(perc.quf.connected(i,j)));
+                for(int j = 1; j <= N; j++)
+                    System.out.print(bool2str(perc.isOpen(i,j)) + " ");
+                System.out.println();
+            }
+            System.out.println("top:" + bool2str(perc.getTop()));
+            System.out.println("bottom:" + bool2str(perc.getBottom()));
+
+
+            System.out.println("full condition:");
+            for(int i = 1; i <= N; i++)
+            {
+                for(int j = 1; j <= N; j++)
+                    System.out.print(bool2str(perc.isFull(i,j)) + " ");
+                System.out.println();
+            }
+
+            if(count == 4)
+            {
+                break;
             }
         }
 
-        for(int i = 1; i <= N; i++)
-            for(int j = 1; j <= N; j++)
-                System.out.println(i + " " + j + " " + bool2str(perc.isFull(i,j)));
     }
 
 }
