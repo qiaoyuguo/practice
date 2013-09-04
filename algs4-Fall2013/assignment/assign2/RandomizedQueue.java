@@ -33,6 +33,8 @@ public class RandomizedQueue<Item>  implements Iterable<Item>
     }
     public void enqueue(Item item)
     {
+        if(item == null)
+            throw new NullPointerException();
         if(N == a.length) resize(2*a.length);
         a[N++] = item;
     }
@@ -68,7 +70,7 @@ public class RandomizedQueue<Item>  implements Iterable<Item>
         private int i = 0;
         public boolean hasNext()
         {
-            return i < a.length - 1;
+            return i < N - 1;
         }
         public void remove()
         {
