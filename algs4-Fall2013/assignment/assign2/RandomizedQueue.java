@@ -70,7 +70,7 @@ public class RandomizedQueue<Item>  implements Iterable<Item>
         private int i = 0;
         public boolean hasNext()
         {
-            return i < N - 1;
+            return i < N;
         }
         public void remove()
         {
