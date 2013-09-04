@@ -37,10 +37,14 @@ public class RandomizedQueue<Item>  implements Iterable<Item>
         a[N++] = item;
     }
 
-    public Item dequeue(Item item)
+    public Item dequeue()
     {
         if(isEmpty()) throw new NoSuchElementException("RandomizedQueue underflow");
-        item = a[N - 1];
+        int rnd = StdRandom.uniform(N);
+        Item swap = a[rnd];
+        a[rnd] = a[N-1];
+        a[N-1] =  swap;
+        Item item = a[N - 1];
         a[N-1] = null;
         N--;
         if(N > 0 && N == a.length/4) resize(a.length/2);
@@ -49,7 +53,9 @@ public class RandomizedQueue<Item>  implements Iterable<Item>
     
     public Item sample()
     {
-        return a[0];
+        if(isEmpty()) throw new NoSuchElementException("RandomizedQueue underflow");
+        int rnd = StdRandom.uniform(N);
+        return a[rnd];
     }
     
     public Iterator<Item> iterator()
