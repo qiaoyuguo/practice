@@ -36,6 +36,7 @@ public class RandomizedQueue<Item>  implements Iterable<Item>
         if(item == null)
             throw new NullPointerException();
         if(N == a.length) resize(2*a.length);
+        
         a[N++] = item;
     }
 
