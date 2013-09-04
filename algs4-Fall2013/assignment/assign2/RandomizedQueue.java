@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.Random;
 import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item>  implements Iterable<Item>
@@ -68,10 +69,15 @@ public class RandomizedQueue<Item>  implements Iterable<Item>
 
     private class ArrayIndexIterator implements Iterator<Item> 
     {
-        private int i = 0;
+        private int i = N-1;
+        Random randnum;
+        public ArrayIndexIterator()
+        {
+            randnum =  new Random(System.currentTimeMillis());
+        }
         public boolean hasNext()
         {
-            return i < N;
+            return i >= 0;
         }
         public void remove()
         {
@@ -81,7 +87,11 @@ public class RandomizedQueue<Item>  implements Iterable<Item>
         public Item next()
         {
             if(!hasNext()) throw new NoSuchElementException();
-            return a[i++];
+            int rnd = randnum.nextInt(i+1);
+            Item swap = a[rnd];
+            a[rnd] = a[i];
+            a[i] = swap;
+            return a[i--];
         }
     }
 
