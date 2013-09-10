@@ -8,6 +8,7 @@ def get_length(dna):
     >>> get_length('ATCG')
     4
     """
+    return len(dna)
 
 
 def is_longer(dna1, dna2):
@@ -21,6 +22,7 @@ def is_longer(dna1, dna2):
     >>> is_longer('ATCG', 'ATCGGA')
     False
     """
+    return len(dna1) > len(dna2)
 
 
 def count_nucleotides(dna, nucleotide):
@@ -33,7 +35,15 @@ def count_nucleotides(dna, nucleotide):
     >>> count_nucleotides('ATCTA', 'G')
     0
     """
-
+    result = 0
+    index = 0
+    while index < len(dna):
+        tmpIndex = dna.find(nucleotide, index)
+        if tmpIndex < 0: 
+            break
+        result += 1
+        index = tmpIndex + 1
+    return result
 
 def contains_sequence(dna1, dna2):
     """ (str, str) -> bool
@@ -47,3 +57,58 @@ def contains_sequence(dna1, dna2):
     False
 
     """
+    return dna1.find(dna2) >=0
+
+def is_valid_sequence(dna):
+    """ (str) -> bool
+
+    Return True if the DNA sequence dna has no characters other than "A","T"    "C","G"
+
+    >>> is_valid_sequence("ATTG")
+    True
+    >>> is_valid_sequence("ABGT")
+    False
+
+    """
+    for c in dna:
+        if c not in "ATCG":
+            return False
+    return True
+
+def insert_sequence(dna_target, dna_src, pos):
+    """ (str, str, int) -> str
+    Insert dna_src to dna_target at index pos
+
+    >>> insert_sequence('CCGG', 'AT', 2)
+    'CCATGG'
+    """
+
+    return dna_target[:pos] + dna_src + dna_target[pos:]
+
+def get_complement(nucleotide):
+    """ (str) -> str
+    return complement of given nucleotide 
+
+    >>> get_complement('A')
+    'T'
+    >>> get_complement('G')
+    'C'
+    """
+    dct = {'A':'T', 'T':'A', 'C':'G', 'G':'C'}
+    return dct[nucleotide]
+
+def get_complementary_sequence(dna):
+    """ (str) -> str
+    Return complementary sequence of given dna sequence
+
+    >>> get_complementary_sequence("ACGTACG")
+    'TGCATGC'
+    """
+    result = ''
+    for c in dna:
+        result += get_complement(c)
+    return result
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
