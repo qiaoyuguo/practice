@@ -43,10 +43,15 @@ public class Point implements Comparable<Point> {
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
         if(this.x == that.x)
-            return Double.POSITIVE_INFINITY;
+        {
+            if(this.y == that.y)
+                return Double.NEGATIVE_INFINITY;
+            else
+                return Double.POSITIVE_INFINITY;
+        }
         if(this.y == that.y)
             return +0.0;
-        return (this.y - that.y)/(this.x - that.x);
+        return (double)(this.y - that.y)/(this.x - that.x);
     }
 
     // is this point lexicographically smaller than that one?
@@ -74,6 +79,7 @@ public class Point implements Comparable<Point> {
         {
             startPoint = p;
         }
+        
         public int compare(Point p, Point q)
         {
             double pSlope = startPoint.slopeTo(p);
@@ -108,6 +114,12 @@ public class Point implements Comparable<Point> {
         /* YOUR CODE HERE */
         Point p = new Point(3,4);
         Point q = new Point(4,8);
+        Point r = new Point(3, 9);
+        Point s = new Point(9, 4);
         StdOut.printf("%.3f %d\n", p.slopeTo(q), p.compareTo(q));
+        StdOut.printf("%.3f %d\n", p.slopeTo(r), p.compareTo(r));
+        StdOut.printf("%.3f %d\n", p.slopeTo(s), p.compareTo(s));
+        StdOut.printf("%.3f %d\n",q.slopeTo(s), q.compareTo(s));
+        StdOut.printf("%.3f %d\n",s.slopeTo(r), s.compareTo(r));
     }
 }
