@@ -86,19 +86,25 @@ public class Point implements Comparable<Point> {
             double qSlope = startPoint.slopeTo(q);
             if(pSlope == Double.POSITIVE_INFINITY && qSlope == Double.POSITIVE_INFINITY)
                 return 0;
-            else if(pSlope == Double.POSITIVE_INFINITY)
+            if(pSlope == Double.NEGATIVE_INFINITY && qSlope == Double.NEGATIVE_INFINITY )
+                return 0;
+            else if(pSlope == Double.POSITIVE_INFINITY || qSlope == Double.NEGATIVE_INFINITY )
             {
-                if(qSlope > 0)
-                    return +1;
-                else 
-                    return -1;
+                //if(qSlope > 0)
+                //    return -1;
+                //else 
+                //    return +1;
+                return +1;
             }
-            else if(qSlope == Double.POSITIVE_INFINITY)
+            else if(qSlope == Double.POSITIVE_INFINITY || pSlope ==  Double.NEGATIVE_INFINITY )
             {
+                /*
                 if(pSlope > 0)
-                    return +1;
-                else 
                     return -1;
+                else 
+                    return +1;
+                    */
+                return -1;
             }
             else if(pSlope > qSlope)
                 return +1;
