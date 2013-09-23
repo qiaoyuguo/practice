@@ -18,12 +18,18 @@ public class Brute
     {
         In infile = new In(args[0]);
         int N = infile.readInt(); 
+        //boolean []visited = new boolean[N];
+
         ArrayList<Point> pts = new ArrayList<Point>();
+        StdDraw.setXscale(0, 32768) ;
+        StdDraw.setYscale(0, 32768);
         for(int i = 0; i < N; i++)
         {
             int x = infile.readInt();
             int y = infile.readInt();
-            pts.add(new Point(x,y));
+            Point curPt = new Point(x,y);
+            pts.add(curPt);
+            curPt.draw();
         }
         Collections.sort(pts);
 
@@ -38,6 +44,7 @@ public class Brute
                             if(sameLine(pts.get(i), pts.get(j), pts.get(k), pts.get(l)))
                             {
                                 StdOut.println(pts.get(i)+ " -> " + pts.get(j)+ " -> " + pts.get(k) + " -> " + pts.get(l));
+                                pts.get(i).drawTo(pts.get(l));
                             }
                         }
 

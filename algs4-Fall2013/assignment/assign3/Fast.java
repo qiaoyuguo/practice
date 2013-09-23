@@ -7,12 +7,16 @@ public class Fast
     {
         In infile = new In(args[0]);
         int N = infile.readInt(); 
+        StdDraw.setXscale(0, 32768) ;
+        StdDraw.setYscale(0, 32768);
         ArrayList<Point> pts = new ArrayList<Point>();
         for(int i = 0; i < N; i++)
         {
             int x = infile.readInt();
             int y = infile.readInt();
-            pts.add(new Point(x,y));
+            Point curPt = new Point(x,y);
+            pts.add(curPt);
+            curPt.draw();
         }
         Collections.sort(pts);
         
@@ -72,6 +76,8 @@ public class Fast
                     StdOut.print( " -> " + tmpPoint);
                     //tmpPoint.draw();
                 }
+                cur_point.drawTo(new_pts.get(k-1));
+
                 StdOut.println();
                 j = k;
 
@@ -82,25 +88,5 @@ public class Fast
                 */
             }
         }
-/*
-        for(int i = 0; i < N; )
-        {
-            int start = i;
-            int end = N;
-            int j;
-            double cur_slope = origin.slopeTo(pts.get(i));
-            for(j = i+1; j < N; j++)
-                if(origin.slopeTo(pts.get(j)) != cur_slope)
-                    break;
-            i = j;
-            if(j < N && j - start >= 3)
-                end = j - 1;
-            if(end != N)
-            {
-                for(j = start; j <= end; j++)
-                System.out.print(pts.get(j) + " => ");
-            }
-        }
-    */
-    }
+   }
 }
