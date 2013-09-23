@@ -66,6 +66,8 @@ public class Point implements Comparable<Point> {
             return -1;
         else if(this.y == that.y && this.x < that.x)
             return -1;
+        else if(this.y == that.y && this.x == that.x)
+            return 0;
         return +1;
     }
 
@@ -91,11 +93,11 @@ public class Point implements Comparable<Point> {
                 throw new NullPointerException();
             double pSlope = startPoint.slopeTo(p);
             double qSlope = startPoint.slopeTo(q);
-            if(pSlope == Double.POSITIVE_INFINITY && qSlope == Double.POSITIVE_INFINITY)
-                return 0;
-            if(pSlope == Double.NEGATIVE_INFINITY && qSlope == Double.POSITIVE_INFINITY )
-                return 0;
-            else if(pSlope == Double.POSITIVE_INFINITY || qSlope == Double.NEGATIVE_INFINITY )
+            //if((pSlope == Double.POSITIVE_INFINITY || pSlope == Double.NEGATIVE_INFINITY) && (qSlope == Double.POSITIVE_INFINITY ||qSlope == Double.NEGATIVE_INFINITY ))
+            //    return 0;
+            //else if(pSlope == Double.POSITIVE_INFINITY || qSlope == Double.NEGATIVE_INFINITY )
+            /*
+            if(pSlope == Double.POSITIVE_INFINITY || qSlope == Double.NEGATIVE_INFINITY )
             {
                 //if(qSlope > 0)
                 //    return -1;
@@ -105,15 +107,10 @@ public class Point implements Comparable<Point> {
             }
             else if(qSlope == Double.POSITIVE_INFINITY || pSlope ==  Double.NEGATIVE_INFINITY )
             {
-                /*
-                if(pSlope > 0)
-                    return -1;
-                else 
-                    return +1;
-                    */
                 return -1;
             }
-            else if(pSlope > qSlope)
+            else*/
+            if(pSlope > qSlope)
                 return +1;
             else if(pSlope < qSlope)
                 return -1;
@@ -129,10 +126,18 @@ public class Point implements Comparable<Point> {
         Point q = new Point(4,8);
         Point r = new Point(3, 9);
         Point s = new Point(9, 4);
+        Point t = new Point(5, 1);
+        Point u = new Point(5,1);
+        Point p1 = new Point(2,8);
+        Point p2 = new Point(2,8);
+        Point p3 = new Point(2,5);
+        
         StdOut.printf("%.3f %d\n", p.slopeTo(q), p.compareTo(q));
         StdOut.printf("%.3f %d\n", p.slopeTo(r), p.compareTo(r));
         StdOut.printf("%.3f %d\n", p.slopeTo(s), p.compareTo(s));
         StdOut.printf("%.3f %d\n",q.slopeTo(s), q.compareTo(s));
         StdOut.printf("%.3f %d\n",s.slopeTo(r), s.compareTo(r));
+        StdOut.printf("%.3f %d\n",t.slopeTo(u), t.compareTo(u));
+        StdOut.printf("%d\n", p1.SLOPE_ORDER.compare(p2,p3));
     }
 }
