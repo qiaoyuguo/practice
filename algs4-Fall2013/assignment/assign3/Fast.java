@@ -16,10 +16,11 @@ public class Fast
         }
         Collections.sort(pts);
         
-        
+        /* 
         for(int i = 0; i < N; i++)
             System.out.print(pts.get(i) + " ");
         System.out.println();
+        */
         
         
         ArrayList<Point> new_pts = (ArrayList<Point>)pts.clone();
@@ -27,13 +28,16 @@ public class Fast
         for(int i = 0; i < N; i++)
         {
             Point cur_point = pts.get(i);
+            Collections.sort(new_pts);
             Collections.sort(new_pts, cur_point.SLOPE_ORDER);
 
             //debug
+            /*
             System.out.print(i+","+cur_point+" ");
             for(int m = 0; m < N; m++)
                 System.out.print(new_pts.get(m) + "," + cur_point.slopeTo(new_pts.get(m)) + " ");
             System.out.println();
+            */
 
             int j = 0; 
             while(j < N)
@@ -60,10 +64,13 @@ public class Fast
                 visited[pts.indexOf(cur_point)] = true;
                 //StdOut.print(i + " " + cur_point + "=>");
                 StdOut.print(cur_point);
+                //cur_point.draw();
                 for(int l = j; l < k; l++)
                 {
-                    visited[pts.indexOf(new_pts.get(l))] = true;
-                    StdOut.print( " -> " + new_pts.get(l));
+                    Point tmpPoint = new_pts.get(l);
+                    visited[pts.indexOf(tmpPoint)] = true;
+                    StdOut.print( " -> " + tmpPoint);
+                    //tmpPoint.draw();
                 }
                 StdOut.println();
                 j = k;
