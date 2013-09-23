@@ -20,6 +20,7 @@ public class Fast
             int x = infile.readInt();
             int y = infile.readInt();
             pts[i] = new Point(x,y);
+            pts[i].draw();
             new_pts[i] = pts[i];
             //Point curPt = new Point(x,y);
             //pts.add(curPt);
