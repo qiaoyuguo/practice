@@ -119,7 +119,8 @@ void display(void)
 		const GLfloat small[] = {0.2, 0.2, 0.2, 1};
 		const GLfloat high[] = {100} ;
 		const GLfloat zero[] = {0.0, 0.0, 0.0, 1.0} ; 
-		const GLfloat light_specular[] = {1, 0.5, 0, 1};
+		//const GLfloat light_specular[] = {1, 0.5, 0, 1};
+		const GLfloat light_specular[] = {1, 1, 0, 1};
 		const GLfloat light_specular1[] = {0, 0.5, 1, 1};
 		const GLfloat light_direction[] = {0.5, 0, 0, 0}; // Dir light 0 in w 
 		const GLfloat light_position1[] = {0, -0.5, 0, 1};
