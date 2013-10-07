@@ -1,0 +1,33 @@
+# Scene description.
+# Lights are position (4), color (4) 
+# Materials come next 
+# Teapot geometry specified at end
+
+#light 0 5 10 1 0.6 0.3 0.0 1.0 
+#light 0 5 -10 1 0 0.3 0.6 1 
+
+size 600 400
+camera 0 0 5 0 0 0 0 1 0 90.0
+
+light 6.5 0 0 0 1 0.5 0 1.0 
+light 0 0 6.5 1 0 0.5 1.0 1 
+
+ambient 0.2 0.2 0.2 1 
+#diffuse 0.2 0.2 0.2 1
+diffuse 0.5 0.5 0.5 1
+specular 1 1 1 1
+shininess 100
+
+pushTransform
+translate 0 -1.5 0 
+rotate 1 0 0 90 
+scale 0.5 0.5 0.5
+teapot 2
+popTransform
+
+#pushTransform
+#translate 0 2.0 0
+#sphere 1.0 
+#popTransform
+
+
