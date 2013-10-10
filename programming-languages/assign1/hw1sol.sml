@@ -49,7 +49,7 @@ fun get_nth(ss: string list,  n: int): string =
     else get_nth(tl ss, n-1)
 
 fun date_to_string(date: int*int*int): string = 
-    let val months = ["January", "February", "March", "Aprill", "May", "June",
+    let val months = ["January", "February", "March", "April", "May", "June",
 		      "July", "August", "September", "October", "November", "December"]
     in List.nth(months, #2 date -1 ) ^" " ^ Int.toString(#3 date) ^ ", " ^ Int.toString(#1 date)
     end
@@ -87,5 +87,13 @@ fun oldest(ds: (int *int*int) list) : (int*int*int) option =
 	in
 	    SOME (oldest_nonempty ds)
 	end
-		  
+(*
+fun number_in_months_challenge(ds: (int*int*int) list, ms: int list):int = 
+    let fun remove_dup(ns: int list): int list = 
+	    if null ns
+	    then ns
+	    else if null (tl ns)
 	    
+
+fun dates_in_months(ds: (int*int*int) list, months:int list):(int*int*int) list = 	    
+*)
