@@ -4,11 +4,12 @@ public class Solver {
     {
         private Board brd;
         private int moves;
-        private int priority;
+        //private int priority;
         private SearchNode prev;
     }
     private Queue<SearchNode> initQueue;
     private Queue<SearchNode> twinQueue;
+    private Queue<SearchNode> nodeQueue = new Queue<SearchNode>();
     private Queue<SearchNode> GetSolution(Board initial)
     {
         Queue<SearchNode> queue = new Queue<SearchNode>();
@@ -16,7 +17,7 @@ public class Solver {
         SearchNode node = new SearchNode();
         node.brd = initial;
         node.moves = 0;
-        node.priority = initial.manhattan();
+        //node.priority = initial.manhattan();
         node.prev = null;
         pq.insert(node);
         SearchNode curNode = null;
@@ -32,7 +33,7 @@ public class Solver {
                 node.brd = (Board)it.next();  
                 node.moves = curNode.moves + 1;
                 node.prev = curNode;
-                node.priority = node.brd.manhattan();
+                //node.priority = node.brd.manhattan();
                 queue.enqueue(node);
             }
         }
@@ -40,11 +41,11 @@ public class Solver {
             return null;
         else
         {
-            while(queue != null)
+            do 
             {
                 queue.enqueue(curNode);
                 curNode = curNode.prev;
-            }
+            }while(curNode != null);
             return queue;
         }
             
@@ -72,8 +73,7 @@ public class Solver {
     }
     public Iterable<Board> solution()       // sequence of boards in a shortest solution; null if no solution
     {
-        Queue<Board> queue = null;
-        Queue<SearchNode> nodeQueue = new Queue<SearchNode>();
+        Queue<Board> queue = new Queue<Board>();
         if(initQueue != null)
             nodeQueue = initQueue;
         else if(twinQueue != null)

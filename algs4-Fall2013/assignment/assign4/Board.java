@@ -22,7 +22,12 @@ public class Board {
         for(int i = 0; i < N; i++)
             for(int j = 0; j < N; j++)
             {
-                if(board[i][j] != i+j+1)
+                if(i == N-1 && j == N-1)
+                {
+                    //if(board[i][j] != 0)
+                    //   ++count;
+                }
+                else if(board[i][j] != i*N + j + 1)
                     ++count;
             }
         return count;
@@ -32,11 +37,12 @@ public class Board {
         int count = 0;
         for(int i = 0; i < N; i++)
             for(int j = 0; j < N; j++)
-            {
-                int x = (board[i][j]-1)/N;
-                int y = (board[i][j]-1)%N;
-                count += Math.abs(x-i) + Math.abs(y-j);
-            }
+                if(board[i][j] != 0)
+                {
+                    int x = (board[i][j]-1)/N;
+                    int y = (board[i][j]-1)%N;
+                    count += Math.abs(x-i) + Math.abs(y-j);
+                }
         return count;
     }
     public boolean isGoal()                // is this board the goal board?
@@ -114,7 +120,7 @@ public class Board {
                 }
                 else
                 {
-                    s.append(String.format("   ", board[i][j]));
+                    s.append(String.format(" "));
                 }
             }
             s.append("\n");
@@ -131,15 +137,16 @@ public class Board {
         Board brd1 = new Board(blocks1);
         Board brd2 = new Board(blocks2);
         StdOut.println(brd);
-        assert(brd.dimension() == 3);
-        assert(brd.hamming() == 5);
-        assert(brd.manhattan() == 10);
-        assert(brd.isGoal() == false);
-        assert(brd2.isGoal() == true);
-        assert(brd.equals(brd1) == true);
-        assert(brd.equals(brd2) == false);
+        StdOut.println(brd.dimension() == 3);
+        StdOut.println(brd.hamming() + " solution should be "+  5);
+        StdOut.println(brd.manhattan() + " solution should be "+ 10);
+        StdOut.println(brd.isGoal() + " solution should be " +  false);
+        StdOut.println(brd2.isGoal() + " solution should be "+ true);
+        StdOut.println(brd.equals(brd1) + " solution should be "+ true);
+        StdOut.println(brd.equals(brd2) + " solution should be "+ false);
         StdOut.print(brd2);
 
+        /*
         Iterable<Board> qe= brd.neighbors();
         Iterator it = qe.iterator();
         StdOut.println(it.hasNext());
@@ -147,6 +154,7 @@ public class Board {
         {
             StdOut.println(it.next());
         }
+        */
     }
 
 }
