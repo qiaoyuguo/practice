@@ -108,7 +108,7 @@ fun score(cs, goal) =
     end
 		 
 fun officiate(cs, ms, goal) =
-    let fun officiate_helper (cs:card list, ms:move list, hs:card list, goal:int) = (* (cs, ms,  goal) *)
+    let fun officiate_helper (cs:card list, ms:move list, hs:card list, goal:int) = 
 	    case (cs, ms, hs, goal) of
 		(_, [], hs, goal) => score(hs, goal)
 	      | (cs, (Discard(c))::ms', hs, goal) => officiate_helper(cs, ms', remove_card(hs, c, IllegalMove), goal)
