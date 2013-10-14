@@ -82,8 +82,43 @@ fun remove_card(cs, c, e) =
 fun all_same_color(cs) =
     case cs of
 	[] => true
-      | x::xs => case xs of 
-		     [] => true
-		   |(x'::xs') => if card_color(x') = card_color(x)
-				 then all_same_color(xs)
-				 else false
+      | x::[]=> true
+      | x::y::ys => if card_color(x) = card_color(y)
+		    then all_same_color(y::ys)
+		    else false
+
+fun sum_cards(cs) = 
+    case cs of
+	[] => 0
+      | x::cs' => card_value(x) + sum_cards(cs')
+
+fun score(cs, goal) = 
+    let 
+	val total = sum_cards(cs)
+    in 
+	let 
+	    val pre_score = if total > goal
+			    then 3*(total-goal)
+			    else goal-total
+	in
+	    if all_same_color(cs)
+	    then pre_score div 2
+	    else pre_score
+	end
+    end
+		 
+fun officiate(cs, ms, goal) =
+    let fun officiate_helper (cs:card list, ms:move list, hs:card list, goal:int) = (* (cs, ms,  goal) *)
+	    case (cs, ms, hs, goal) of
+		(_, [], hs, goal) => score(hs, goal)
+	      | (cs, (Discard(c))::ms', hs, goal) => officiate_helper(cs, ms', remove_card(hs, c, IllegalMove), goal)
+	      | ([], _, hs, goal) => score(hs, goal)
+	      | (x::cs', Draw::ms', hs, goal) => let val cur_score = score(x::hs, goal) 
+						 in 
+						     if cur_score > goal
+						     then cur_score
+						     else officiate_helper(cs', ms', x::hs, goal)
+						 end
+    in
+	officiate_helper(cs, ms, [], goal)
+    end
