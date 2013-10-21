@@ -1,4 +1,0 @@
-ex1.c: solution program to problemID(5467:polynomial addtion)
-test1.c: test program to create test data
-test1.sh: script program to run after ex1.c and test1.c are compiled and linked, which is used to check if the solution program have fatal error(such as segment default). If this script aborts, then the corresponding data is in test1.out, we can use it to debug solution program and correct it
-other files: test data files
