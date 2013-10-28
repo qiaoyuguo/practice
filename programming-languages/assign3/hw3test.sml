@@ -26,19 +26,30 @@ val test5 = longest_capitalized ["A","bc","C"] = "A";
 val test5_1 = longest_capitalized [] = ""
 
 val test6 = rev_string "abc" = "cba";
-(*
+
 val test7 = first_answer (fn x => if x > 3 then SOME x else NONE) [1,2,3,4,5] = 4
 
 val test8 = all_answers (fn x => if x = 1 then SOME [x] else NONE) [2,3,4,5,6,7] = NONE
+val test8_1 = all_answers (fn x => if x = 1 then SOME [x] else NONE) [] = SOME []
+val test8_2 = all_answers (fn x => if x = 1 then SOME [x] else NONE) [1,2,3,4,5,6,7]  = SOME [1]
+val test8_3 = all_answers (fn x => if x > 4 then SOME [x] else NONE) [1,2,3,4,5,6,7]  = SOME [5,6,7]
 
-val test9a = count_wildcards Wildcard = 1
+val test9a_1 = count_wildcards Wildcard = 1
+val test9a_2 = count_wildcards (TupleP [Wildcard, Wildcard, ConstP(5)]) = 2
+val test9a_3 = count_wildcards (ConstructorP ("dt", TupleP [Wildcard, Wildcard, Wildcard])) = 3
+val test9a_4 = count_wildcards (TupleP [Wildcard, TupleP [Wildcard, Wildcard], ConstP 5]) = 3
+val test9a_5 = count_wildcards (TupleP [ConstP 10, TupleP [Variable "str"], ConstP 5]) = 0;
 
 val test9b = count_wild_and_variable_lengths (Variable("a")) = 1
 
 val test9c = count_some_var ("x", Variable("x")) = 1;
 
 val test10 = check_pat (Variable("x")) = true
-
+val test10_1 = check_pat (TupleP [Variable("x"), Variable("y")]) = true
+val test10_2 = check_pat (TupleP [Variable("x"), Variable("x")]) = false
+val test10_3 = check_pat (TupleP [Variable("x"), Variable("y"), Variable("x")]) = false
+val test10_4 = check_pat(Wildcard) = true
+(*
 val test11 = match (Const(1), UnitP) = NONE
 
 val test12 = first_match Unit [UnitP] = SOME []

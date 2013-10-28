@@ -23,8 +23,32 @@ fun longest_capitalized(xs) =
 fun rev_string(s) = 
     implode(rev(explode s))
 
-
 exception NoAnswer
+
+val rec first_answer =
+    fn f => fn xs => 
+	       case xs of
+		   [] => raise NoAnswer
+		 | x::xs' => if isSome(f(x))
+			    then valOf(f(x))
+			    else first_answer f xs'
+val rec all_answers = 
+    fn f => fn xs => 
+	       case xs of 
+		   [] => SOME []
+		 | x::[] => if isSome(f(x))
+			    then f(x)
+			    else NONE
+		 | x::xs' => 
+		   let val rest = all_answers f xs'
+		   in
+		       if isSome(f(x))
+		       then 
+			   if isSome(rest)
+			   then SOME (valOf(f(x)) @ valOf(rest))
+			   else f(x)
+		       else rest
+		   end
 
 datatype pattern = Wildcard
 		 | Variable of string
@@ -38,6 +62,8 @@ datatype valu = Const of int
 	      | Tuple of valu list
 	      | Constructor of string * valu
 
+
+
 fun g f1 f2 p =
     let 
 	val r = g f1 f2 
@@ -50,6 +76,27 @@ fun g f1 f2 p =
 	  | _                 => 0
     end
 
+fun count_wildcards p = 
+    g (fn x => 1) (fn x=>0) p
+
+fun count_wild_and_variable_lengths p = 
+    g (fn x => 1) (fn v => String.size v) p
+    
+fun count_some_var(s, p) = 
+    g (fn x => 0)  (fn v => if v = s then 1 else 0)   p
+
+fun check_pat p = 
+    let
+	fun all_vars p =
+	    case p of 
+		Variable x => [x]
+	      | TupleP ps => List.foldl (fn (x,y) => all_vars(x) @ y)  [] ps
+	      | _ => []
+	fun has_no_dup [] = true
+	  | has_no_dup (x::xs) = not (List.exists (fn y => x = y) xs) andalso (has_no_dup xs)
+    in
+	has_no_dup(all_vars(p))
+    end
 (**** for the challenge problem only ****)
 
 datatype typ = Anything
