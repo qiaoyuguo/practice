@@ -1,0 +1,2 @@
+prequisite: ubuntu msp430gcc mspdebug
+code modified from site:http://dbindner.freeshell.org/msp430/
