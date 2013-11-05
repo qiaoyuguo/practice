@@ -3,39 +3,26 @@
  *
  *       Filename:  ex1.cpp
  *
- *    Description:  age and illness
+ *    Description:  apple and worm
  *
  * =====================================================================================
  */
-
-#include <cstdio>
+#include <cmath>
 #include <iostream>
+
 using namespace std;
 
 int main(void)
 {
-    int count[4] = {0};
-    int n,i;
-    int cur_num;
-    const char *s[4] = {"1-18: ", "19-35: ", "36-60: ", "60-: "};
-
-    cin >> n;
-    for(i = 0; i < n; i++)
-    {
-        cin >> cur_num;
-        if(cur_num <= 18)
-            ++count[0];
-        else if(cur_num <= 35)
-            ++count[1];
-        else if(cur_num <= 60)
-            ++count[2];
-        else 
-            ++count[3];
-    }
-    for(i = 0; i < 4; i++)
-    {
-        printf("%s%.2lf%%\n", s[i], (double)(100*count[i])/n);
-    }
+    int n,x,y;
+    int remained_apple;
     
+    cin >> n >>x >>y; 
+    remained_apple = n - (int)ceil((double)y/x);
+    if(remained_apple >= 0)
+        cout << remained_apple << endl;
+    else
+        cout << 0 << endl;
+
     return 0;
 }

@@ -3,33 +3,36 @@
  *
  *       Filename:  ex4.cpp
  *
- *    Description:  count of Olympic medals
+ *    Description:  min even and max odd number 
  *
  * =====================================================================================
  */
+#include <cmath>
+#include <iostream>
 
-#include <cstdio>
 using namespace std;
 
 int main(void)
 {
-    int n;
-    int total_gold = 0;
-    int total_silver = 0;
-    int total_copper = 0;
-    int cur_gold, cur_silver, cur_copper;
-
-    scanf("%d", &n);
-    while(n-- > 0)
+    const int N = 6;
+    int a[N];
+    for(int i = 0; i < N; i++)
     {
-        scanf("%d %d %d", &cur_gold, &cur_silver, &cur_copper);
-        total_gold += cur_gold;
-        total_silver += cur_silver;
-        total_copper += cur_copper;
+        cin >> a[i];
+    }
+    int min_even = 100;
+    int max_odd = 0;
+
+    for(int i = 0; i < N; i++)
+    {
+        if(a[i] % 2 == 0 && a[i] < min_even)
+            min_even = a[i];
+        else if(a[i] % 2 == 1 && a[i] > max_odd)
+            max_odd = a[i];
     }
 
-    printf("%d %d %d %d\n", total_gold, total_silver, total_copper, 
-                            total_gold + total_silver + total_copper);
+    //cout << min_even << max_odd << endl;
+    cout << abs(min_even - max_odd) << endl;
 
     return 0;
 }

@@ -1,34 +1,24 @@
 /*
  * =====================================================================================
  *
- *       Filename:  ex5.cpp
+ *       Filename:  ex5.c
  *
- *    Description:  Renminbi 
+ *    Description:  seperate different bits of an 3-bit integer
  *
  * =====================================================================================
  */
+#include <iostream>
 
-#include <cstdio>
+using namespace std;
 
 int main(void)
 {
-    int n,i;
-    int a[6] = {100, 50, 20, 10, 5, 1};
-    int count[6] = {0};
+    int n;
+    cin >> n;
 
-    scanf("%d", &n);
-    for(i = 0; i < 6; i++)
-    {
-        if(n >= a[i])
-        {
-            count[i]= n/a[i];
-            n -= count[i]* a[i];
-        }
-        if(n <= 0)
-            break;
-    }
-    for(i = 0; i < 6; i++)
-        printf("%d\n", count[i]);
+    cout << n/100 << endl;
+    cout << (n/10)%10 << endl;
+    cout << n%10 << endl;
 
     return 0;
 }

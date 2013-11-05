@@ -3,33 +3,28 @@
  *
  *       Filename:  ex2.cpp
  *
- *    Description:  judge the scores
+ *    Description:  elephant drinking water
  *
  * =====================================================================================
  */
+#include <cmath>
 #include <iostream>
 
 using namespace std;
 
+const double PI = 3.14159;
+
 int main(void)
 {
-    int score;
-    cin >> score;
+    int h,r;
+    int total = 20;
+    double bucket_num;
 
-    if(score >= 95 && score <= 100)
-        cout << 1 << endl;
-    else if(score >= 90 && score < 95)
-        cout << 2 << endl;
-    else if(score >= 85 && score < 90)
-        cout << 3 << endl;
-    else if(score >= 80 && score < 85)
-        cout << 4 << endl;
-    else if(score >= 70 && score < 80)
-        cout << 5 << endl;
-    else if(score >= 60 && score < 70)
-        cout << 6 << endl;
-    else
-        cout << 7 << endl;
+    cin >> h >> r;
+    bucket_num = (total * 1000)/(PI*r*r*h);
+    cout << (int)ceil(bucket_num) << endl;
 
     return 0;
 }
+
+

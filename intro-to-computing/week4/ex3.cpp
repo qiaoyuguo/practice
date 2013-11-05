@@ -3,7 +3,7 @@
  *
  *       Filename:  ex3.cpp
  *
- *    Description:  find the kth largest number
+ *    Description:  max score
  *
  * =====================================================================================
  */
@@ -12,40 +12,25 @@
 
 using namespace std;
 
-int swap(int *x, int *y)
-{
-    int tmp = *x;
-    *x = *y;
-    *y = tmp;
-}
 int main(void)
 {
-    int n,k, *a;
+    int n;
+    int *a;
 
-    cin >> n >> k;
-    a = (int*)malloc(sizeof(int) * n);
+    cin >> n;
+    a = (int*)malloc(n * sizeof(int));
     if(a == NULL)
         return -1;
 
     for(int i = 0; i < n; i++)
         cin >> a[i];
-
-    for(int i = 0; i < k; i++)
-    {
-        int max = a[i];
-        int max_index = i;
-        for(int j = i+1; j < n; j++)
-        {
-           if(max < a[j]) 
-           {
-               max = a[j];
-               max_index = j;
-           }
-        }
-        swap(&a[i], &a[max_index]);
-    }
-    cout << a[k-1] << endl;
+    int max = a[0];
+    for(int i = 1; i < n; i++)
+        if(a[i] > max)
+            max = a[i];
     free(a);
+
+    cout << max << endl;
 
     return 0;
 }
