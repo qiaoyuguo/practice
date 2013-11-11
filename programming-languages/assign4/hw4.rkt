@@ -27,9 +27,60 @@
     (cond [(< n 0) (error "list-nth-mod: negative number")]
           [(= n 0) (error "list-nth-mod: empty list")]
           [else 
-           (car (list-tail xs (remainder (length xs) n)))])))
+           (car (list-tail xs (remainder n (length xs) )))])))
 
 ;; problem 4
 ;; Stream Natural -> List
 ;; produce first n elements of stream s
-(define stream-for-n-steps empty)
+;(define powers-of-two 
+;  (letrec [(f (lambda (x) (cons x (lambda () (f (* x 2))))))]
+;    (lambda () (f 2))))
+(define (stream-for-n-steps xs n)
+  (let ([pr (xs)])
+    (if (= n 0)
+        empty
+        (cons (car pr) (stream-for-n-steps (cdr pr) (- n 1))))))
+
+;; problem 5
+;; a stream which is like natural numbers except numbers divisible by 5 are negated
+(define funny-number-stream
+  (letrec [(f (lambda (x) (cons (if (= (remainder x 5) 0)
+                                    (- x)
+                                    x)
+                                (lambda () (f (+ x 1))))))]
+    (lambda () (f 1))))
+
+;; problem 6
+;; write a stream dan-then-dog where the elments of the stream alternate between
+;; the strings "dan.jpg" and "dog.jpg"
+(define dan-then-dog
+  (letrec [(f (lambda (x) (cons x (lambda () (f  (if (string=? x "dan.jpg")
+                                                     "dog.jpg"
+                                                     "dan.jpg"))))))]
+    (lambda () (f "dan.jpg"))))
+
+;; problem 7
+;; take a stream and return another stream, if ith elment is x, then 
+;; corresponding result element  is (0 . x)
+(define (stream-add-zero s)
+  (letrec [(pr (s))]
+    (lambda () (cons (cons 0 (car pr)) (stream-add-zero (cdr pr))))))
+
+;; problem 8
+;; List List -> Stream
+;; produce a stream with each element is (x . y) (x belongs to xs, y belongs to ys)
+(define (inter-list xs ys)
+  (local [(define (f xs y) 
+          (if (empty? xs)
+              empty
+              (cons (cons  (car xs) y) (f (cdr xs) y))))]
+    (if (empty? ys)
+        empty
+        (append (f xs (car ys)) (inter-list xs (cdr ys))))))
+        
+(define (cycle-lists xs ys)
+  (letrec [(zlen (* (length xs) (length ys)))
+           (f (lambda (x) (cons (cons (list-nth-mod xs zlen) (list-nth-mod ys zlen))
+                                (lambda () (f  (+ x 1))))))]
+    (lambda () (f 0))))
+                
