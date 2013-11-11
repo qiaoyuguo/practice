@@ -21,12 +21,12 @@
 (define COLS (build-list N (lambda (x) x)))
 (define ROWS COLS)
 
-;; Integer[0,1,2,3...N-1] Integer[0,1,2,3...N-1] -> Integer[0,N*N-1]
+;; Integer[0,N-1] Integer[0,N-1] -> Integer[0,N*N-1]
 ;; Convert 0-base row and column to Pos
 (define (r-c->pos r c) (+ (* r N) c))
 
 (define-struct coord (x y))
-;; Coord is  (make-coord Integer[0,N-1] Integer[0,N-1])
+;; Coord is (make-coord Integer[0,N-1] Integer[0,N-1])
 ;; interp. a coord is a square position x,y
 
 ;; Constants:
@@ -103,7 +103,7 @@
 (define (solved? bd)
   (= (count-true bd) N))
 
-;; Board -> Natural
+;; Board -> Integer[0,N*N-1]
 ;; produce number of true values in bd.
 (check-expect (count-true BD1) 0)
 (check-expect (count-true BD2) 2)
@@ -124,7 +124,7 @@
 (define (next-boards bd)
   (keep-only-valid (fill-with-true bd (find-blank-row bd))))
 
-;; Board -> Natural[0,3]
+;; Board -> Integer[0,N-1]
 ;; produce the first row number in which row all squares are all false
 (check-expect (find-blank-row BD1) 0)
 (check-expect (find-blank-row BD2) 2)
@@ -138,7 +138,7 @@
     (find-blank-row-helper 0 bd)))
 
 
-;; Natural[0,N-1] Board -> Boolean
+;; Integer[0,N-1] Board -> Boolean
 ;; produces true if all square in row of bd is false, or else produce true.
 (check-expect (row-false? 0 BD1) true)
 (check-expect (row-false? 3 BD1) true)
@@ -226,7 +226,7 @@
                    (cons cur-pos (get-all-queens-pos-helper (rest bd) (+ cur-pos 1)))]))]
     (get-all-queens-pos-helper bd 0)))
 
-;; (LitOf Coord) -> Boolean
+;; (ListOf Coord) -> Boolean
 ;; produce true if it has one coord attacks other coords.
 (check-expect (queens-attack? empty) false)
 (check-expect (queens-attack? (list (make-coord 0 3))) false)
