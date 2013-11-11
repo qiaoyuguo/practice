@@ -183,8 +183,8 @@
 ; (listof Board) -> (listof Board)
 ;; produce list containing only valid boards
 
-;(check-expect (keep-only-valid (list (cons T (cons T (rest (rest BD1)))))) 
-;              empty)
+(check-expect (keep-only-valid (list (cons T (cons T (rest (rest BD1)))))) 
+              empty)
 ;(define (keep-only-valid lobd) empty) ;stub
 (define (keep-only-valid lobd )
   (filter bd-valid? lobd))
