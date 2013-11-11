@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-advanced-reader.ss" "lang")((modname project3) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f ())))
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname 39f8d5e1db4df658beea3650c65c08ce) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ())))
 ;; Data definitions:
 
 ;; Board size
@@ -10,12 +10,29 @@
 ;;   A board is a NxN array of squares, where each square has a row and column 
 ;;   number(r,c).But we represent it as a single flat list, in which the rows
 ;;   are layed out one after another in a linear fashion.
+#;
+(define (backtracking-fn bd)
+  (local [(define (fn-for-bd bd)
+            (... (fn-for-lobd (... bd))))
+          
+          (define (fn-for-lobd lobd)
+            (cond [(empty? lobd) false]
+                  [else
+                   (local [(define try (fn-for-bd (first lobd)))] ;try first board
+                     (if (not (false? try))                     ;successful?
+                         try                                    ;if so produce that
+                         (fn-for-lobd (rest lobd))))]))]          ;or try rest of boards
+    
+    (fn-for-bd bd)))
 
 ;; Pos is Integer[0, N*N]
 ;; interp.
 ;;  the position of a square on the board, for a given p, then
 ;;    - the row is (quotient p N)
-;;    - the column is (remaind p N)
+;;    - the column is (remainder p N)
+#;
+(define (fn-for-pos pos)
+  (... (quotient p N) (remainder p N)))
 
 ;; list of all column number and row number
 (define COLS (build-list N (lambda (x) x)))
@@ -28,6 +45,9 @@
 (define-struct coord (x y))
 ;; Coord is (make-coord Integer[0,N-1] Integer[0,N-1])
 ;; interp. a coord is a square position x,y
+#;
+(define (fn-for-coord coord)
+  (... (coord-x coord) (coord-y coord)))
 
 ;; Constants:
 (define F false) ; F stands for no queens
