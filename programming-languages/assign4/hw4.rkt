@@ -25,7 +25,8 @@
 (define list-nth-mod
   (lambda (xs n)
     (cond [(< n 0) (error "list-nth-mod: negative number")]
-          [(= n 0) (error "list-nth-mod: empty list")]
+          [(empty? xs) (error "list-nth-mod: empty list")]
+          [(= n 0) (first xs)]
           [else 
            (car (list-tail xs (remainder n (length xs) )))])))
 
@@ -69,18 +70,50 @@
 ;; problem 8
 ;; List List -> Stream
 ;; produce a stream with each element is (x . y) (x belongs to xs, y belongs to ys)
-(define (inter-list xs ys)
-  (local [(define (f xs y) 
-          (if (empty? xs)
-              empty
-              (cons (cons  (car xs) y) (f (cdr xs) y))))]
-    (if (empty? ys)
-        empty
-        (append (f xs (car ys)) (inter-list xs (cdr ys))))))
-        
+       
 (define (cycle-lists xs ys)
-  (letrec [(zlen (* (length xs) (length ys)))
-           (f (lambda (x) (cons (cons (list-nth-mod xs zlen) (list-nth-mod ys zlen))
+  (letrec [(f (lambda (x) (cons (cons (list-nth-mod xs x) (list-nth-mod ys x))
                                 (lambda () (f  (+ x 1))))))]
     (lambda () (f 0))))
-                
+
+;; problem 9
+;; Integer (VectorOf pair) -> pair or false
+;; produces first pair whose car field is v, or else produce false
+(define (vector-assoc v vec)
+  (local [(define (vector-assoc-helper v vec pos)
+            (local [(define len (vector-length vec))]
+              (cond [(>= pos len) #f]
+                    [(not (pair? (vector-ref vec pos))) (vector-assoc-helper v vec (+ pos 1))]
+                    [(equal? v (car (vector-ref vec pos))) (vector-ref vec pos)]
+                    [else
+                     (vector-assoc-helper v vec (+ pos 1))])))]
+    (vector-assoc-helper v vec 0)))
+                    
+;; problem 10
+;; List Integer -> (Number-> pair or false)
+;; produce a function that takes one argument v  and return the same thing that (assoc v xs) would return.
+
+(define (cached-assoc xs n) 
+  (letrec ([memo (make-vector n #f)]
+           [pos 0]
+
+         (lambda (v)
+           (let [ans (vector-assoc v memo)]
+            (if ans
+                ans
+                (begin
+                  (vector-set! memo pos (assoc  v xs))
+                  (begin 
+                    (set! pos (remainder (+ pos 1) n))
+                    (assoc v xs)
+                    (print "cnt is:")
+                    (local [(define (print-memo memo start)
+                              (if (>= start n)
+                                  (print "end printing memo")
+                                  (begin
+                                    (print (vector-ref memo start))
+                                    (print-memo memo (+ start 1)))))]
+                      (print-memo memo 0))))))))
+(define xs (list (cons 1 2) (cons 3 4) (cons 5  6) (cons 7 8) (cons 9 10)))
+(define thing (cached-assoc xs 3))
+  
