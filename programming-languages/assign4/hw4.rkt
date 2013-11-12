@@ -104,16 +104,6 @@
                         (vector-set! memo pos (assoc  v xs))
                         (begin 
                           (set! pos (remainder (+ pos 1) n))
-                          (assoc v xs)
-                          (print "cnt is:")
-                          (local [(define (print-memo memo start)
-                                    (if (>= start n)
-                                        (print "end printing memo")
-                                        (begin
-                                          (print (vector-ref memo start))
-                                          (print-memo memo (+ start 1)))))]
-                            (print-memo memo 0)))))))])
+                          (assoc v xs))))))])
     f))
-(define xs (list (cons 1 2) (cons 3 4) (cons 5  6) (cons 7 8) (cons 9 10)))
-(define thing (cached-assoc xs 3))
   
