@@ -77,22 +77,15 @@
          (let ([funexp (eval-under-env (call-funexp e) env)]
                [actual (eval-under-env (call-actual e) env)])
            (cond [(and (closure? funexp) (fun? (closure-fun funexp)))
-                  (letrec ([cur-env (closure-env funexp)]
+                  (let* ([cur-env (closure-env funexp)]
                            [cur-fun (closure-fun funexp)]
-                           [func-env (cons (fun-nameopt cur-fun) cur-env)]
+                           [func-env (cons (fun-nameopt cur-fun) funexp)]
                            [param-env (cons (fun-formal cur-fun) actual)]
                            [new-env (cons param-env 
                                           (if (fun-nameopt cur-fun)
                                               (cons func-env cur-env)
                                               cur-env))])
                     (eval-under-env (fun-body cur-fun) new-env))]
-                   ; (if (fun-nameopt cur-fun)
-                    ;    (eval-under-env ;(mlet (fun-nameopt cur-fun) cur-env 
-                     ;                         (mlet (fun-formal cur-fun) actual (fun-body cur-fun)) env)
-                     ;   (eval-under-env (mlet (fun-formal cur-fun) actual (fun-body cur-fun)) env)))]
-                                        
-                        ;(int 1) ;;not implemented!!!
-                        ;(eval-under-env (mlet (fun-formal cur-fun) actual (fun-body cur-fun)) e
                  [else
                   (error "error happens")]))]
         [(apair? e)
@@ -102,13 +95,14 @@
         [(fst? e) 
          (let ([v (eval-under-env (fst-e e) env)])
            (if (apair? v)
-               (apair-e1 (fst-e e))
+               (eval-under-env (apair-e1 v) env)
                (error "argument not an apair")))]
         [(snd? e) 
          (let ([v (eval-under-env (snd-e e) env)])
            (if (apair? v)
-               (apair-e2 (snd-e e))
+               (eval-under-env (apair-e2  v) env)
                (error "argument not an apair")))]
+        [(aunit? e) e]
         [(isaunit? e)
          (let ([v (eval-under-env (isaunit-e e) env)])
            (if (aunit? v)
@@ -123,7 +117,7 @@
 ;; Problem 3
 
 (define (ifaunit e1 e2 e3)
-  (if (isaunit e1) e3 e2))
+  (ifgreater (isaunit e1) (int 0) e2 e3))
 
 (define (mlet* lstlst e2)
   (if (null? lstlst)
@@ -149,11 +143,9 @@
                        (apair (call (var "f1") (fst (var "xs")))
                               (call (var "f2") (snd (var "xs"))))))))
   
-
-(define mupl-mapAddN 
-  (mlet "map" mupl-map
-        "CHANGE (notice map is now in MUPL scope)"))
-
+(define mupl-mapAddN
+  (mlet "map" mupl-map (fun #f "arg" (call (var "map")
+                                               (fun #f "addN" (add (var "addN") (var "arg")))))))
 ;; Challenge Problem
 
 (struct fun-challenge (nameopt formal body freevars) #:transparent) ;; a recursive(?) 1-argument function
