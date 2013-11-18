@@ -5,7 +5,7 @@
 
 ;; Be sure to put your homework file in the same folder as this test file.
 ;; Uncomment the line below and change HOMEWORK_FILE to the name of your homework file.
-;;(require "HOMEWORK_FILE")
+(require "hw5.rkt")
 
 (require rackunit)
 
@@ -28,6 +28,8 @@
    ;; call test
    (check-equal? (eval-exp (call (closure '() (fun #f "x" (add (var "x") (int 7)))) (int 1))) (int 8) "call test")
    
+   ;;fst test
+   (check-equal? (eval-exp (fst (apair (int 1) (int 2)))) (int 1) "fst test")
    ;;snd test
    (check-equal? (eval-exp (snd (apair (int 1) (int 2)))) (int 2) "snd test")
    
