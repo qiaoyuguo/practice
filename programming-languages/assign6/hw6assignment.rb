@@ -43,7 +43,6 @@ class MyBoard < Board
     @score = 0
     @game = game
     @delay = 500
-    #@one_piece= false
     @next_block = nil
   end
 
@@ -56,12 +55,6 @@ class MyBoard < Board
   end
 
   def next_piece
-#    if one_piece
-#        @current_block = Mypiece.new([[[0,0]]], self.board)
-#    else
-#        @current_block = MyPiece.next_piece(self)
-#        one_piece = false
-#    end
     if @next_block != nil
         @current_block = @next_block
         @next_block = MyPiece.next_piece(self)
@@ -93,8 +86,7 @@ class MyBoard < Board
 
   def cheat
     one_piece = [[[0,0]]]
-    if score >= 100 and one_piece != @current_block.all_rotations
-        #one_piece = true
+    if score >= 100 and (@next_block == nil or @next_block.all_rotations != one_piece)
         @next_block = MyPiece.new([[[0,0]]], @current_block.board)
         set_score(score-100)
     end
@@ -115,9 +107,6 @@ class MyTetris < Tetris
     @board.draw
   end
 
-  #def initialize
-  #    super
-  #end
   def key_bindings  
     super
     @root.bind('u', proc {@board.rotate_180_degree}) 
